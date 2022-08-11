@@ -1,4 +1,4 @@
-const createError = require('http-errors');
+const createHTTPError = require('http-errors');
 const {verifyToken} = require('../../utils/jwtUtils');
 
 
