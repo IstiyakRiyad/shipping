@@ -1,6 +1,6 @@
 const {Schema, model} = require('mongoose');
 
-const UserSchema = Schema({
+const RateSchema = Schema({
     exportLocation: {
         type: String,
         required: true
@@ -46,6 +46,6 @@ const UserSchema = Schema({
 });
 
 
-const User = model('rate', UserSchema);
+const Rate = model('rate', RateSchema);
 
-module.exports = User;
+module.exports = Rate;

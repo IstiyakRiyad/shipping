@@ -1,6 +1,6 @@
 const {Schema, model} = require('mongoose');
 
-const UserSchema = Schema({
+const AgentSchema = Schema({
     customAgentName: {
         type: String,
         required: true
@@ -22,24 +22,24 @@ const UserSchema = Schema({
         required: true
     },
     classifyProduct: {
-        type: String,
+        type: Number,
         required: true
     },
     rojoSelective: {
-        type: String,
+        type: Number,
         required: true
     },
-    rreview: {
-        type: String,
+    review: {
+        type: Number,
         required: true
     },
     permitsCost: {
-        type: String,
+        type: Number,
         required: true
     }
 });
 
 
-const User = model('agent', UserSchema);
+const Agent = model('agent', AgentSchema);
 
-module.exports = User;
+module.exports = Agent;

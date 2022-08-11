@@ -1,6 +1,6 @@
 const {Schema, model} = require('mongoose');
 
-const UserSchema = Schema({
+const LclSchema = Schema({
     companyName: {
         type: String,
         required: true
@@ -24,6 +24,6 @@ const UserSchema = Schema({
 });
 
 
-const User = model('lcl', UserSchema);
+const Lcl = model('lcl', LclSchema);
 
-module.exports = User;
+module.exports = Lcl;
