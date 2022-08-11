@@ -18,5 +18,16 @@
   "bugs": {
     "url": "https://github.com/IstiyakRiyad/shipping/issues"
   },
-  "homepage": "https://github.com/IstiyakRiyad/shipping#readme"
+  "homepage": "https://github.com/IstiyakRiyad/shipping#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.5.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
 }
