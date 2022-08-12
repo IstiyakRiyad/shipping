@@ -33,15 +33,15 @@ const RateSchema = Schema({
         type: Number,
         default: 0
     },
-    status: {
-        type: String,
-        required: true
-    },
     consolidationAddress: {
         type: String
     },
     heatTreatPalletRequire: {
         type: String
+    },
+    status: {
+        type: String,
+        default: 'Pending'
     }
 }, {timestamps: true});
 

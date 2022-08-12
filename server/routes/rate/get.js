@@ -1,17 +1,16 @@
 const router = require('express').Router();
-const Agent = require('../../models/agent');
+const Rate = require('../../models/rate');
 
 
 
 router.get('/', async (req, res, next) => {
     try {
-
-        const agent = await Agent.find({}, {__v: 0});
+        const rate = await Rate.find({}, {__v: 0});
 
 
         res.json({
-            message: 'All Agent Company Information',
-            data: agent
+            message: 'All Rate Company Information',
+            data: rate
         });
     }
     catch(error) {

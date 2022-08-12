@@ -20,6 +20,10 @@ const LclSchema = Schema({
     enterPhoneNumber: {
         type: String,
         required: true
+    },
+    status: {
+        type: String,
+        default: 'Pending'
     }
 }, {timestamps: true});
 

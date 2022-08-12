@@ -36,6 +36,10 @@ const AgentSchema = Schema({
     permitsCost: {
         type: Number,
         required: true
+    },
+    status: {
+        type: String,
+        default: 'Active'
     }
 }, {timestamps: true});
 

@@ -6,13 +6,14 @@ const Lcl = require('../../models/lcl');
 router.patch('/:lclId', async (req, res, next) => {
     try {
         const {lclId} = req.params;
-console.log(lclId)
+
         const {
             companyName,
             companyAddress,
             salesEmail,
             supportEmail,
-            enterPhoneNumber
+            enterPhoneNumber,
+            status
         } = req.body;
 
         let updateData = {};
@@ -22,9 +23,9 @@ console.log(lclId)
         if(salesEmail) updateData.salesEmail = salesEmail;
         if(supportEmail) updateData.supportEmail = supportEmail;
         if(enterPhoneNumber) updateData.enterPhoneNumber = enterPhoneNumber;
+        if(status) updateData.status = status;
 
-
-        const lcl = await Lcl.findOneAndUpdate({_id: lclId}, {$set: updateData});
+        const lcl = await Lcl.findOneAndUpdate({_id: lclId}, {$set: updateData}, {new: true});
 
 
         res.json({

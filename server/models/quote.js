@@ -48,6 +48,10 @@ const QuoteSchema = Schema({
     },
     otherCosts: {
         type: Array
+    },
+    status: {
+        type: String,
+        default: 'Pending'
     }
 }, {timestamps: true});
 
