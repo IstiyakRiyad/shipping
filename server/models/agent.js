@@ -37,7 +37,7 @@ const AgentSchema = Schema({
         type: Number,
         required: true
     }
-});
+}, {timestamps: true});
 
 
 const Agent = model('agent', AgentSchema);

@@ -43,7 +43,7 @@ const RateSchema = Schema({
     heatTreatPalletRequire: {
         type: String
     }
-});
+}, {timestamps: true});
 
 
 const Rate = model('rate', RateSchema);

@@ -21,7 +21,7 @@ const LclSchema = Schema({
         type: String,
         required: true
     }
-});
+}, {timestamps: true});
 
 
 const Lcl = model('lcl', LclSchema);
