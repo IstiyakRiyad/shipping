@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const Agent = require('../../models/agent');
 const {ObjectId} = require('mongoose').Types;
+const checkAuth = require('../authorization/checkAuth');
 
 
 
-router.get('/:agentId', async (req, res, next) => {
+router.get('/:agentId', checkAuth(), async (req, res, next) => {
     try {
         const {agentId} = req.params;
 

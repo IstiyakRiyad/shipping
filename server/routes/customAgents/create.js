@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const Agent = require('../../models/agent');
+const checkAuth = require('../authorization/checkAuth');
 
 
 
-router.post('/', async (req, res, next) => {
+router.post('/', checkAuth(), async (req, res, next) => {
     try {
         const {
             customAgentName,

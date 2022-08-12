@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const Rate = require('../../models/rate');
+const checkAuth = require('../authorization/checkAuth');
 
 
 
-router.patch('/:rateId', async (req, res, next) => {
+router.patch('/:rateId',  checkAuth(), async (req, res, next) => {
     try {
         const {rateId} = req.params;
 

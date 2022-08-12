@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const Agent = require('../../models/agent');
+const checkAuth = require('../authorization/checkAuth');
 
 
 
-router.patch('/:agentId', async (req, res, next) => {
+router.patch('/:agentId', checkAuth(), async (req, res, next) => {
     try {
         const {agentId} = req.params;
         const {

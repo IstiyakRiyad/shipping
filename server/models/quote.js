@@ -21,6 +21,10 @@ const QuoteSchema = Schema({
         type: Number,
         required: true
     },
+    weight: {
+        type: Number,
+        required: true
+    },
     numberOfPallets: {
         type: Number,
         required: true

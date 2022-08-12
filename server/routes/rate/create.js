@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const Rate = require('../../models/rate');
+const checkAuth = require('../authorization/checkAuth');
 
 
 
-router.post('/:partnerId', async (req, res, next) => {
+router.post('/:partnerId', checkAuth(), async (req, res, next) => {
     try {
         const {partnerId} = req.params;
 

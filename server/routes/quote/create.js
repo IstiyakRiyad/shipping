@@ -3,15 +3,24 @@ const Lcl = require('../../models/lcl');
 const checkAuth = require('../authorization/checkAuth');
 
 
-
 router.post('/', checkAuth(), async (req, res, next) => {
     try {
         const {
-            companyName,
-            companyAddress,
-            salesEmail,
-            supportEmail,
-            enterPhoneNumber
+            // warehouse,
+            // countryOfImport,
+            rateId,
+            length,
+            width,
+            height,
+            weight,
+            numberOfPallets,
+            typeOfMerchandise,
+            commercialInvoice,
+            statusOfShipment,
+            collectionTransport,
+            name,
+            email,
+            phone
         } = req.body;
         
         const lcl = await new Lcl({

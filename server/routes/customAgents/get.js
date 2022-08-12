@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const Agent = require('../../models/agent');
+const checkAuth = require('../authorization/checkAuth');
 
 
 
-router.get('/', async (req, res, next) => {
+router.get('/', checkAuth(), async (req, res, next) => {
     try {
 
         const agent = await Agent.find(

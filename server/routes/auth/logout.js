@@ -12,7 +12,7 @@ router.post('/', async (req, res, next) => {
 
         // Clear the cookie
         res.clearCookie('token', {
-            path: `api/v1/auth`
+            // path: `api/v1/`
         });
 
 
