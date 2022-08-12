@@ -1,6 +1,10 @@
-const {Schema, model} = require('mongoose');
+const {Schema, model, Types} = require('mongoose');
 
 const RateSchema = Schema({
+    partnerId: {
+        type: Types.ObjectId,
+        required: true
+    },
     exportLocation: {
         type: String,
         required: true

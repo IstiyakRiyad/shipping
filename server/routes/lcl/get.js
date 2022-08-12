@@ -6,7 +6,7 @@ const Lcl = require('../../models/lcl');
 router.get('/', async (req, res, next) => {
     try {
 
-        const lcls = await Lcl.find({}, {__v: 0});
+        const lcls = await Lcl.find({}, {companyName: 1, status: 1});
 
 
         res.json({

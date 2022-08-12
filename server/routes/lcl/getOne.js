@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Lcl = require('../../models/lcl');
+const {ObjectId} = require('mongoose').Types;
 
 
 
@@ -8,13 +9,43 @@ router.get('/:lclId', async (req, res, next) => {
         const {lclId} = req.params;
 
 
-        const lcl = await Lcl.findOne({_id: lclId}, {__v: 0});
+        const lcl = await Lcl.aggregate([
+            {
+                $match: {
+                    _id: ObjectId(lclId)
+                }
+            },
+            {
+                $lookup: {
+                    from: 'rates',
+                    localField: '_id',
+                    foreignField: 'partnerId',
+                    as: 'rates',
+                    pipeline: [
+                        {
+                            $project: {
+                                exportLocation: 1,
+                                destinationCountry: 1,
+                                status: 1,
+                                updatedAt: 1
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                $project: {
+                    __v: 0
+                }
+            }
+        ]);
+
 
         // Rate info
 
         res.json({
             message: 'LCL Company Information',
-            data: lcl
+            data: lcl.length ? lcl[0] : null
         });
     }
     catch(error) {

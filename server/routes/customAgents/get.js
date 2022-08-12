@@ -6,7 +6,17 @@ const Agent = require('../../models/agent');
 router.get('/', async (req, res, next) => {
     try {
 
-        const agent = await Agent.find({}, {__v: 0});
+        const agent = await Agent.find(
+            {}, 
+            {
+                customAgentName: 1, 
+                customAgentAddress: 1,
+                country: 1, 
+                supportEmail: 1,
+                enterPhoneNumber: 1,
+                status: 1
+            }
+        );
 
 
         res.json({

@@ -1,6 +1,58 @@
 const {Schema, model} = require('mongoose');
 
 const QuoteSchema = Schema({
+    warehouse: {
+        type: String,
+        required: true
+    },
+    countryOfImport: {
+        type: String,
+        required: true
+    },
+    length: {
+        type: Number,
+        required: true
+    },
+    width: {
+        type: Number,
+        required: true
+    },
+    height: {
+        type: Number,
+        required: true
+    },
+    numberOfPallets: {
+        type: Number,
+        required: true
+    },
+    typeOfMerchandise: {
+        type: String,
+        required: true
+    },
+    commercialInvoice: {
+        type: String,
+        required: true
+    },
+    statusOfShipment: {
+        type: String,
+        required: true
+    },
+    collectionTransport: {
+        type: String,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: String,
+        required: true
+    },
     pickupTransportation: {
         type: Object,
         default: {

@@ -9,7 +9,7 @@ router.get('/:rateId', async (req, res, next) => {
 
         const rate = await Rate.findOne({_id: rateId}, {__v: 0});
 
-        
+
         res.json({
             message: 'All Rate Company Information',
             data: rate
