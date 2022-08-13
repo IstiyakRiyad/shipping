@@ -1,52 +1,19 @@
 const router = require('express').Router();
-const Lcl = require('../../models/lcl');
-const {ObjectId} = require('mongoose').Types;
+const Quote = require('../../models/quote');
 const checkAuth = require('../authorization/checkAuth');
 
 
 
-router.get('/:lclId', checkAuth(), async (req, res, next) => {
+router.get('/:quoteId', checkAuth(), async (req, res, next) => {
     try {
-        const {lclId} = req.params;
+        const {quoteId} = req.params;
 
 
-        const lcl = await Lcl.aggregate([
-            {
-                $match: {
-                    _id: ObjectId(lclId)
-                }
-            },
-            {
-                $lookup: {
-                    from: 'rates',
-                    localField: '_id',
-                    foreignField: 'partnerId',
-                    as: 'rates',
-                    pipeline: [
-                        {
-                            $project: {
-                                exportLocation: 1,
-                                destinationCountry: 1,
-                                status: 1,
-                                updatedAt: 1
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                $project: {
-                    __v: 0
-                }
-            }
-        ]);
-
-
-        // Rate info
+        const quote = await Quote.findOne({_id: quoteId}, {__v: 0});
 
         res.json({
-            message: 'LCL Company Information',
-            data: lcl.length ? lcl[0] : null
+            message: 'Quote Information',
+            data: quote
         });
     }
     catch(error) {
