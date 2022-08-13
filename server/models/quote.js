@@ -1,5 +1,21 @@
 const {Schema, model} = require('mongoose');
 
+const OtherCostSchema = Schema({
+    unit: {
+        type: Number,
+    },
+	amount: {
+        type: Number,
+    },
+	title: {
+        type: String,
+    },
+	description: {
+        type: String,
+    }
+})
+
+
 const QuoteSchema = Schema({
     warehouse: {
         type: String,
@@ -103,7 +119,7 @@ const QuoteSchema = Schema({
         }
     },
     otherCosts: {
-        type: Array
+        type: [OtherCostSchema]
     },
     tax: {
         type: Number,
