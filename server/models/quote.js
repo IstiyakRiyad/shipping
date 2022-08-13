@@ -80,8 +80,8 @@ const QuoteSchema = Schema({
     ecommerceLogisticServices: {
         type: Object,
         default: {
-            unit: 0,
-            amount: 0
+            unit: 1,
+            amount: 250
         }
     },
     customAduanaServices: {
@@ -98,12 +98,16 @@ const QuoteSchema = Schema({
     deliveryToClient: {
         type: Object,
         default: {
-            unit: 0,
-            amount: 0
+            unit: 1,
+            amount: 500
         }
     },
     otherCosts: {
         type: Array
+    },
+    tax: {
+        type: Number,
+        default: 7
     },
     status: {
         type: String,

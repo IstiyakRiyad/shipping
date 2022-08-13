@@ -1,6 +1,9 @@
 const router = require('express').Router();
-const Lcl = require('../../models/lcl');
+const Quote = require('../../models/quote');
+const Rate = require('../../models/rate');
 const checkAuth = require('../authorization/checkAuth');
+const createHttpError = require('http-errors');
+const Agent = require('../../models/agent');
 
 
 router.post('/', checkAuth(), async (req, res, next) => {
@@ -23,18 +26,55 @@ router.post('/', checkAuth(), async (req, res, next) => {
             phone
         } = req.body;
         
-        const lcl = await new Lcl({
-            companyName,
-            companyAddress,
-            salesEmail,
-            supportEmail,
-            enterPhoneNumber
+        const rate = await Rate.findOne({_id: rateId});
+
+        if(!rate) throw createHttpError(404, 'Rate not found');
+
+        const volume = width * height * length * numberOfPallets;
+
+        const exportAndFreight = {
+            freightRate: volume * rate.freightRate,
+            portFee: volume * rate.portFee,
+            documentFee: rate.documentFee,
+            billofLadingFee: rate.billofLadingFee,
+            destinationBillofLadingFee: rate.destinationBillofLadingFee,
+            chargeFee: rate.chargeFee,
+            unit: 1,
+            amount: volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee + rate.destinationBillofLadingFee + rate.chargeFee
+        }
+
+        const agent = await Agent.findOne({status: 'Default'});
+        
+        const customAduanaServices = {
+            classifyProduct: agent.classifyProduct,
+            rojoSelective: agent.rojoSelective,
+            review: agent.review,
+            permitsCost: agent.permitsCost
+        }
+
+        const quote = await new Quote({
+            warehouse: rate.warehouse,
+            countryOfImport: rate.countryOfImport,
+            length,
+            width,
+            height,
+            weight,
+            numberOfPallets,
+            typeOfMerchandise,
+            commercialInvoice,
+            statusOfShipment,
+            collectionTransport,
+            name,
+            email,
+            phone,
+            exportAndFreight,
+            customAduanaServices
         }).save();
 
 
         res.json({
-            message: 'LCL Company Information',
-            data: lcl
+            message: 'Quote Information',
+            data: quote
         });
     }
     catch(error) {

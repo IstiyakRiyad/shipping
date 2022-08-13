@@ -32,7 +32,9 @@ router.patch('/:agentId', checkAuth(), async (req, res, next) => {
         if(review) updateData.review = review;
         if(permitsCost) updateData.permitsCost = permitsCost;
         if(status) updateData.status = status;
-
+        if(status === 'Default') {
+            await Agent.findOneAndUpdate({status: 'Default'}, {$set: {status: 'Active'}});
+        }
 
         const agent = await Agent.findOneAndUpdate({_id: agentId}, {$set: updateData}, {new: true});
 
