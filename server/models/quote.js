@@ -109,6 +109,16 @@ const QuoteSchema = Schema({
         type: Number,
         default: 7
     },
+    confirmation: {
+        type: String,
+        default: `This is only a quote. Consolidatoin warehouse will measure and weight shipment and we'll provide you a final invoice. <br> This quote is only for shipping and customs services. You are responsible for taxes, and inspectons cost if goverment requires it.`
+    },
+    consolidationAddress: {
+        type: String
+    },
+    heatTreatPalletRequire: {
+        type: String
+    },
     status: {
         type: String,
         default: 'Pending'

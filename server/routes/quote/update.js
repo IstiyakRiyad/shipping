@@ -1,37 +1,85 @@
 const router = require('express').Router();
-const Lcl = require('../../models/lcl');
+const Quote = require('../../models/quote');
+const Rate = require('../../models/rate');
 const checkAuth = require('../authorization/checkAuth');
+const createHttpError = require('http-errors');
+const Agent = require('../../models/agent');
 
 
-
-router.patch('/:lclId', checkAuth(), async (req, res, next) => {
+router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
     try {
-        const {lclId} = req.params;
+        const {quoteId} = req.params;
 
         const {
-            companyName,
-            companyAddress,
-            salesEmail,
-            supportEmail,
-            enterPhoneNumber,
-            status
+            pickupTransportation,
+            ecommerceLogisticServices,
+            deliveryToClient,
+            rate,
+            agent,
+            otherCosts,
+            tax,
+            confirmation,
         } = req.body;
+        
+        const updateData = {};
 
-        let updateData = {};
+        if(pickupTransportation) updateData.pickupTransportation = pickupTransportation;
+        if(ecommerceLogisticServices) updateData.ecommerceLogisticServices = ecommerceLogisticServices;
+        if(deliveryToClient) updateData.deliveryToClient = deliveryToClient;
+        if(tax) updateData.tax = tax;
+        if(confirmation) updateData.confirmation = confirmation;
 
-        if(companyName) updateData.companyName = companyName
-        if(companyAddress) updateData.companyAddress = companyAddress;
-        if(salesEmail) updateData.salesEmail = salesEmail;
-        if(supportEmail) updateData.supportEmail = supportEmail;
-        if(enterPhoneNumber) updateData.enterPhoneNumber = enterPhoneNumber;
-        if(status) updateData.status = status;
 
-        const lcl = await Lcl.findOneAndUpdate({_id: lclId}, {$set: updateData}, {new: true});
+        if(rate) {
+            const oldQuote = await Quote.findOne({_id: quoteId});
 
+            if(!oldQuote) throw createHttpError(404, 'Quote Not Found');
+
+            const rateData = await Rate.findOne({_id: rate.id});
+
+            if(!rateData) throw createHttpError(404, 'Rate not found');
+
+            const {width, height, length, numberOfPallets} = oldQuote;
+            
+            const volume = width * height * length * numberOfPallets;
+
+            updateData.exportAndFreight = {
+                freightRate: volume * rateData.freightRate,
+                portFee: volume * rateData.portFee,
+                documentFee: rateData.documentFee,
+                billofLadingFee: rateData.billofLadingFee,
+                destinationBillofLadingFee: rateData.destinationBillofLadingFee,
+                chargeFee: rateData.chargeFee,
+                unit: rate.unit,
+                amount: rate.amount //(volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee + rate.destinationBillofLadingFee) * (1+ rate.chargeFee / 100)
+            }
+            updateData.warehouse = rateData.warehouse;
+            updateData.countryOfImport = rateData.countryOfImport;
+            updateData.consolidationAddress = rateData.consolidationAddress;
+            updateData.heatTreatPalletRequire = rateData.heatTreatPalletRequire;
+        }
+
+
+        if(agent) {
+            const agentData = await Agent.findOne({_id: agent.id});
+
+            if(agentData) {
+                updateData.customAduanaServices = {
+                    classifyProduct: agentData.classifyProduct,
+                    rojoSelective: agentData.rojoSelective,
+                    review: agentData.review,
+                    permitsCost: agentData.permitsCost,
+                    unit: agent.unit,
+                    amount: agent.amount
+                }
+            }
+        }
+
+        const quote = await Quote.findOneAndUpdate({_id: quoteId}, {$set: updateData, $push: {otherCosts}}, {new: true});
 
         res.json({
-            message: 'LCL Company Information updated',
-            data: lcl
+            message: 'Quote Information updated',
+            data: quote
         });
     }
     catch(error) {

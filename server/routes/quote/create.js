@@ -6,6 +6,7 @@ const createHttpError = require('http-errors');
 const Agent = require('../../models/agent');
 
 
+
 router.post('/', checkAuth(), async (req, res, next) => {
     try {
         const {
@@ -40,21 +41,24 @@ router.post('/', checkAuth(), async (req, res, next) => {
             destinationBillofLadingFee: rate.destinationBillofLadingFee,
             chargeFee: rate.chargeFee,
             unit: 1,
-            amount: volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee + rate.destinationBillofLadingFee + rate.chargeFee
+            amount: (volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee + rate.destinationBillofLadingFee) * (1+ rate.chargeFee / 100)
         }
 
         const agent = await Agent.findOne({status: 'Default'});
-        
-        const customAduanaServices = {
-            classifyProduct: agent.classifyProduct,
-            rojoSelective: agent.rojoSelective,
-            review: agent.review,
-            permitsCost: agent.permitsCost
+
+        let customAduanaServices;
+        if(agent) {
+            customAduanaServices = {
+                classifyProduct: agent.classifyProduct,
+                rojoSelective: agent.rojoSelective,
+                review: agent.review,
+                permitsCost: agent.permitsCost
+            }
         }
 
         const quote = await new Quote({
-            warehouse: rate.warehouse,
-            countryOfImport: rate.countryOfImport,
+            warehouse: rate.exportLocation,
+            countryOfImport: rate.destinationCountry,
             length,
             width,
             height,
@@ -68,7 +72,9 @@ router.post('/', checkAuth(), async (req, res, next) => {
             email,
             phone,
             exportAndFreight,
-            customAduanaServices
+            customAduanaServices,
+            consolidationAddress: rate.consolidationAddress,
+            heatTreatPalletRequire: rate.heatTreatPalletRequire
         }).save();
 
 
