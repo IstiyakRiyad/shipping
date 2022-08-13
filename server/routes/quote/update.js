@@ -46,6 +46,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
             const volume = width * height * length * numberOfPallets;
 
             updateData.exportAndFreight = {
+                id: rateData._id,
                 freightRate: rateData.freightRate,
                 portFee: rateData.portFee,
                 documentFee: rateData.documentFee,
@@ -67,6 +68,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
 
             if(agentData) {
                 updateData.customAduanaServices = {
+                    id: agentData._id,
                     classifyProduct: agentData.classifyProduct,
                     rojoSelective: agentData.rojoSelective,
                     review: agentData.review,

@@ -33,6 +33,7 @@ router.post('/', async (req, res, next) => {
         const volume = width * height * length * numberOfPallets / 1728 / 35.315;
 
         const exportAndFreight = {
+            id: rate._id,
             freightRate: rate.freightRate,
             portFee: rate.portFee,
             documentFee: rate.documentFee,
@@ -48,6 +49,7 @@ router.post('/', async (req, res, next) => {
         let customAduanaServices;
         if(agent) {
             customAduanaServices = {
+                id: agent._id,
                 classifyProduct: agent.classifyProduct,
                 rojoSelective: agent.rojoSelective,
                 review: agent.review,
