@@ -1,13 +1,12 @@
 const router = require('express').Router();
 const Quote = require('../../models/quote');
 const Rate = require('../../models/rate');
-const checkAuth = require('../authorization/checkAuth');
 const createHttpError = require('http-errors');
 const Agent = require('../../models/agent');
 
 
 
-router.post('/', checkAuth(), async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
         const {
             // warehouse,
