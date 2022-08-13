@@ -51,7 +51,9 @@ router.post('/', async (req, res, next) => {
                 classifyProduct: agent.classifyProduct,
                 rojoSelective: agent.rojoSelective,
                 review: agent.review,
-                permitsCost: agent.permitsCost
+                permitsCost: agent.permitsCost,
+                unit: 1,
+                amount: agent.classifyProduct + agent.rojoSelective + agent.review + agent.permitsCost
             }
         }
 
