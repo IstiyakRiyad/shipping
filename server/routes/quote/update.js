@@ -46,8 +46,8 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
             const volume = width * height * length * numberOfPallets;
 
             updateData.exportAndFreight = {
-                freightRate: volume * rateData.freightRate,
-                portFee: volume * rateData.portFee,
+                freightRate: rateData.freightRate,
+                portFee: rateData.portFee,
                 documentFee: rateData.documentFee,
                 billofLadingFee: rateData.billofLadingFee,
                 destinationBillofLadingFee: rateData.destinationBillofLadingFee,
