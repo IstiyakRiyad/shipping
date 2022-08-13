@@ -30,11 +30,11 @@ router.post('/', async (req, res, next) => {
 
         if(!rate) throw createHttpError(404, 'Rate not found');
 
-        const volume = width * height * length * numberOfPallets;
+        const volume = width * height * length * numberOfPallets / 1728 / 35.315;
 
         const exportAndFreight = {
-            freightRate: volume * rate.freightRate,
-            portFee: volume * rate.portFee,
+            freightRate: rate.freightRate,
+            portFee: rate.portFee,
             documentFee: rate.documentFee,
             billofLadingFee: rate.billofLadingFee,
             destinationBillofLadingFee: rate.destinationBillofLadingFee,
