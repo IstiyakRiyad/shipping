@@ -5,7 +5,35 @@ const Rate = require('../../models/rate');
 
 router.get('/', async (req, res, next) => {
     try {
-        const rate = await Rate.find({}, {exportLocation: 1, destinationCountry: 1});
+        const rate = await Rate.aggregate([
+            {
+                $match: {}
+            },
+            {
+                $lookup: {
+                    from: 'lcls',
+                    localField: 'partnerId',
+                    foreignField: '_id',
+                    as: 'partner',
+                    pipeline: [
+                        {$project: {
+                            companyName: 1
+                        }}
+                    ]
+                }
+            },
+            {
+                $project: {
+                    partner: 1,
+                    exportLocation: 1, 
+                    destinationCountry: 1
+                }
+            }
+        ])
+        
+        
+        
+        // find({}, {exportLocation: 1, destinationCountry: 1});
 
 
         res.json({
