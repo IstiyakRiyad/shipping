@@ -89,7 +89,7 @@ router.get('/:quoteId', checkAuth(), async (req, res, next) => {
 
         res.json({
             message: 'Quote Information',
-            data: quote
+            data: quote.length ? quote[0] : null
         });
     }
     catch(error) {
