@@ -31,6 +31,7 @@ router.get('/', checkAuth(), async (req, res, next) => {
                 width: 1,
                 height: 1,
                 weight: 1,
+                status: 1
             }
         );
 

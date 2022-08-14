@@ -17,7 +17,9 @@ router.patch('/:agentId', checkAuth(), async (req, res, next) => {
             rojoSelective,
             review,
             permitsCost,
-            status
+            status,
+            id,
+            description
         } = req.body;
         
         const updateData = {};
@@ -35,6 +37,8 @@ router.patch('/:agentId', checkAuth(), async (req, res, next) => {
         if(status === 'Default') {
             await Agent.findOneAndUpdate({status: 'Default'}, {$set: {status: 'Active'}});
         }
+        if(id) updateData.id = id;
+        if(description) updateData.description = description;
 
         const agent = await Agent.findOneAndUpdate({_id: agentId}, {$set: updateData}, {new: true});
 

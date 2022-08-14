@@ -15,7 +15,8 @@ router.post('/', checkAuth(), async (req, res, next) => {
             classifyProduct,
             rojoSelective,
             review,
-            permitsCost
+            permitsCost,
+            description
         } = req.body;
         
         const agent = await new Agent({
@@ -27,7 +28,8 @@ router.post('/', checkAuth(), async (req, res, next) => {
             classifyProduct,
             rojoSelective,
             review,
-            permitsCost
+            permitsCost,
+            description
         }).save();
 
 

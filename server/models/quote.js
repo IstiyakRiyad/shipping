@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const {Schema, model} = require('mongoose');
 
 const OtherCostSchema = Schema({
@@ -17,6 +18,10 @@ const OtherCostSchema = Schema({
 
 
 const QuoteSchema = Schema({
+    id: {
+        type: String,
+        default: Math.floor(Math.random() * 100000)
+    },
     warehouse: {
         type: String,
         required: true
@@ -61,6 +66,9 @@ const QuoteSchema = Schema({
         type: String,
         required: true
     },
+    description: {
+        type: String,
+    },
     name: {
         type: String,
         required: true
@@ -83,12 +91,12 @@ const QuoteSchema = Schema({
     exportAndFreight: {
         type: Object,
         default: {
-            freightRate: 0,
-            portFee: 0,
-            documentFee: 0,
-            billofLadingFee: 0,
-            destinationBillofLadingFee: 0,
-            chargeFee: 0,
+            // freightRate: 0,
+            // portFee: 0,
+            // documentFee: 0,
+            // billofLadingFee: 0,
+            // destinationBillofLadingFee: 0,
+            // chargeFee: 0,
             unit: 0,
             amount: 0
         }
@@ -103,10 +111,10 @@ const QuoteSchema = Schema({
     customAduanaServices: {
         type: Object,
         default: {
-            classifyProduct: 0,
-            rojoSelective: 0,
-            review: 0,
-            permitsCost: 0,
+            // classifyProduct: 0,
+            // rojoSelective: 0,
+            // review: 0,
+            // permitsCost: 0,
             unit: 0,
             amount: 0
         }
