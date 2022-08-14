@@ -27,7 +27,7 @@ router.post('/', async (req, res, next) => {
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production' ? true : false,
-            sameSite: 'none',
+            sameSite: 'None',
             // path: `api/v1`,
             signed: true
         }); 
