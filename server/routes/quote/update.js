@@ -53,7 +53,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
                 updateData.exportAndFreight = {
                     id: rateData._id,
                     unit: rate.unit,
-                    amount: (volume * rateData.freightRate +  volume * rateData.portFee + rateData.documentFee + rateData.billofLadingFee ) * (1+ rateData.chargeFee / 100) * rate.unit
+                    amount: (volume * rateData.freightRate +  volume * rateData.portFee + rateData.documentFee + rateData.billofLadingFee ) * (1+ rateData.chargeFee / 100)
                 }
             }
             else {
