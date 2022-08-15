@@ -35,6 +35,8 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
 
 
         if(rate) {
+            const {idChanged} = rate;
+
             const oldQuote = await Quote.findOne({_id: quoteId});
 
             if(!oldQuote) throw createHttpError(404, 'Quote Not Found');
@@ -43,20 +45,23 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
 
             if(!rateData) throw createHttpError(404, 'Rate not found');
 
-            const {width, height, length, numberOfPallets} = oldQuote;
+            const {width, height, length} = oldQuote;
             
-            const volume = width * height * length * numberOfPallets;
+            const volume = width * height * length / 1728 / 35.315;
 
-            updateData.exportAndFreight = {
-                id: rateData._id,
-                freightRate: rateData.freightRate,
-                portFee: rateData.portFee,
-                documentFee: rateData.documentFee,
-                billofLadingFee: rateData.billofLadingFee,
-                destinationBillofLadingFee: rateData.destinationBillofLadingFee,
-                chargeFee: rateData.chargeFee,
-                unit: rate.unit,
-                amount: rate.amount //(volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee + rate.destinationBillofLadingFee) * (1+ rate.chargeFee / 100)
+            if(idChanged) {
+                updateData.exportAndFreight = {
+                    id: rateData._id,
+                    unit: rate.unit,
+                    amount: (volume * rateData.freightRate +  volume * rateData.portFee + rateData.documentFee + rateData.billofLadingFee ) * (1+ rateData.chargeFee / 100) * rate.unit
+                }
+            }
+            else {
+                updateData.exportAndFreight = {
+                    id: rateData._id,
+                    unit: rate.unit,
+                    amount: rate.amount //(volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee + rate.destinationBillofLadingFee) * (1+ rate.chargeFee / 100)
+                }
             }
             updateData.warehouse = rateData.warehouse;
             updateData.countryOfImport = rateData.countryOfImport;
@@ -66,15 +71,20 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
 
 
         if(agent) {
+            const {idChanged} = agent;
+
             const agentData = await Agent.findOne({_id: agent.id});
 
-            if(agentData) {
+            if(idChanged && agentData) {
                 updateData.customAduanaServices = {
                     id: agentData._id,
-                    classifyProduct: agentData.classifyProduct,
-                    rojoSelective: agentData.rojoSelective,
-                    review: agentData.review,
-                    permitsCost: agentData.permitsCost,
+                    unit: agent.unit,
+                    amount: agentData.classifyProduct * agent.unit,
+                }
+            }
+            else if(agentData) {
+                updateData.customAduanaServices = {
+                    id: agentData._id,
                     unit: agent.unit,
                     amount: agent.amount
                 }

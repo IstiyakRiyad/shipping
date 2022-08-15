@@ -30,7 +30,7 @@ router.post('/', async (req, res, next) => {
 
         if(!rate) throw createHttpError(404, 'Rate not found');
 
-        const volume = width * height * length * numberOfPallets / 1728 / 35.315;
+        const volume = width * height * length / 1728 / 35.315;
 
         const exportAndFreight = {
             id: rate._id,
@@ -41,7 +41,7 @@ router.post('/', async (req, res, next) => {
             // destinationBillofLadingFee: rate.destinationBillofLadingFee,
             // chargeFee: rate.chargeFee,
             unit: 1,
-            amount: (volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee ) * (1+ rate.chargeFee / 100)
+            amount: ( volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee ) * (1+ rate.chargeFee / 100)
         }
 
         const agent = await Agent.findOne({status: 'Default'});
@@ -55,7 +55,7 @@ router.post('/', async (req, res, next) => {
                 // review: agent.review,
                 // permitsCost: agent.permitsCost,
                 unit: 1,
-                amount: agent.classifyProduct + agent.rojoSelective + agent.review + agent.permitsCost
+                amount: agent.classifyProduct
             }
         }
 
