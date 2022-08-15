@@ -79,7 +79,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
                 updateData.customAduanaServices = {
                     id: agentData._id,
                     unit: agent.unit,
-                    amount: agentData.classifyProduct * agent.unit,
+                    amount: agentData.classifyProduct,
                 }
             }
             else if(agentData) {
