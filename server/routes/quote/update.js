@@ -45,9 +45,9 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
 
             if(!rateData) throw createHttpError(404, 'Rate not found');
 
-            const {width, height, length} = oldQuote;
+            const {width, height, length, numberOfPallets} = oldQuote;
             
-            const volume = width * height * length / 1728 / 35.315;
+            const volume = width * height * length * numberOfPallets / 1728 / 35.315;
 
             if(idChanged) {
                 updateData.exportAndFreight = {
