@@ -28,7 +28,8 @@ router.get('/:lclId', checkAuth(), async (req, res, next) => {
                                 exportLocation: 1,
                                 destinationCountry: 1,
                                 status: 1,
-                                updatedAt: 1
+                                updatedAt: 1,
+                                note: 1
                             }
                         }
                     ]

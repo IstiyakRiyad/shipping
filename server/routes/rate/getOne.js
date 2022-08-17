@@ -32,7 +32,6 @@ router.get('/:rateId',  checkAuth(), async (req, res, next) => {
                 }
             }
         ]);
-        console.log(rate);
 
         res.json({
             message: 'All Rate Company Information',
