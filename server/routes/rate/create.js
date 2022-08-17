@@ -19,7 +19,8 @@ router.post('/:partnerId', checkAuth(), async (req, res, next) => {
             chargeFee,
             consolidationAddress,
             heatTreatPalletRequire,
-            status
+            status,
+            note
         } = req.body;
         
         const rate = await new Rate({
@@ -34,7 +35,8 @@ router.post('/:partnerId', checkAuth(), async (req, res, next) => {
             chargeFee,
             consolidationAddress,
             heatTreatPalletRequire,
-            status
+            status,
+            note
         }).save();
 
 

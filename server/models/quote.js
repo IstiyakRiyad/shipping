@@ -145,7 +145,7 @@ const QuoteSchema = Schema({
     },
     status: {
         type: String,
-        default: 'Pending'
+        default: 'New'
     }
 }, {timestamps: true});
 

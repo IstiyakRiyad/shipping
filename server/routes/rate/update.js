@@ -19,7 +19,8 @@ router.patch('/:rateId',  checkAuth(), async (req, res, next) => {
             chargeFee,
             consolidationAddress,
             heatTreatPalletRequire,
-            status
+            status,
+            note
         } = req.body;
 
         const updateData = {};
@@ -35,7 +36,7 @@ router.patch('/:rateId',  checkAuth(), async (req, res, next) => {
         if(consolidationAddress)updateData.consolidationAddress = consolidationAddress;
         if(heatTreatPalletRequire)updateData.heatTreatPalletRequire = heatTreatPalletRequire;
         if(status)updateData.status = status;     
-
+        if(note)updateData.note = note;
 
         const rate = await Rate.findOneAndUpdate({_id: rateId}, {$set: updateData}, {new: true});
 

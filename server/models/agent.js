@@ -37,6 +37,9 @@ const AgentSchema = Schema({
         type: Number,
         required: true
     },
+    note: {
+        type: String
+    },
     status: {
         type: String,
         default: 'Active'

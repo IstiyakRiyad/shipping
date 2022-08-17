@@ -14,7 +14,8 @@ router.patch('/:lclId', checkAuth(), async (req, res, next) => {
             salesEmail,
             supportEmail,
             enterPhoneNumber,
-            status
+            status,
+            note
         } = req.body;
 
         let updateData = {};
@@ -25,6 +26,7 @@ router.patch('/:lclId', checkAuth(), async (req, res, next) => {
         if(supportEmail) updateData.supportEmail = supportEmail;
         if(enterPhoneNumber) updateData.enterPhoneNumber = enterPhoneNumber;
         if(status) updateData.status = status;
+        if(note) updateData.note = note;
 
         const lcl = await Lcl.findOneAndUpdate({_id: lclId}, {$set: updateData}, {new: true});
 

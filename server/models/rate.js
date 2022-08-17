@@ -43,6 +43,9 @@ const RateSchema = Schema({
     heatTreatPalletRequire: {
         type: String
     },
+    note: {
+        type: String,
+    },
     status: {
         type: String,
         default: 'Pending'

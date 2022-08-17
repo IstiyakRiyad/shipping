@@ -11,7 +11,8 @@ router.post('/', checkAuth(), async (req, res, next) => {
             companyAddress,
             salesEmail,
             supportEmail,
-            enterPhoneNumber
+            enterPhoneNumber,
+            note
         } = req.body;
         
         const lcl = await new Lcl({
@@ -19,7 +20,8 @@ router.post('/', checkAuth(), async (req, res, next) => {
             companyAddress,
             salesEmail,
             supportEmail,
-            enterPhoneNumber
+            enterPhoneNumber,
+            note
         }).save();
 
 

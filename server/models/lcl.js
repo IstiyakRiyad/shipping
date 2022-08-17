@@ -21,6 +21,9 @@ const LclSchema = Schema({
         type: String,
         required: true
     },
+    note: {
+        type: String
+    },
     status: {
         type: String,
         default: 'Pending'

@@ -30,7 +30,7 @@ router.post('/', async (req, res, next) => {
 
         if(!rate) throw createHttpError(404, 'Rate not found');
 
-        const volume = width * height * length / 1728 / 35.315;
+        const volume = width * height * length * numberOfPallets / 1728 / 35.315;
 
         const exportAndFreight = {
             id: rate._id,
