@@ -51,16 +51,28 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
 
             if(idChanged) {
                 updateData.exportAndFreight = {
-                    id: rateData._id,
+                    id: rateData.id,
+                    freightRate: rateData.freightRate,
+                    portFee: rateData.portFee,
+                    documentFee: rateData.documentFee,
+                    billofLadingFee: rateData.billofLadingFee,
+                    destinationBillofLadingFee: rateData.destinationBillofLadingFee,
+                    chargeFee: rateData.chargeFee,
                     unit: rate.unit,
-                    amount: (volume * rateData.freightRate +  volume * rateData.portFee + rateData.documentFee + rateData.billofLadingFee ) * (1+ rateData.chargeFee / 100)
+                    amount: (volume * rateData.freightRate +  volume * rateData.portFee + rateData.documentFee + rateData.billofLadingFee ) * (1+ rateData.chargeFee / 100) * rate.unit
                 }
             }
             else {
                 updateData.exportAndFreight = {
-                    id: rateData._id,
+                    id: rate.id,
+                    freightRate: rate.freightRate,
+                    portFee: rate.portFee,
+                    documentFee: rate.documentFee,
+                    billofLadingFee: rate.billofLadingFee,
+                    destinationBillofLadingFee: rate.destinationBillofLadingFee,
+                    chargeFee: rate.chargeFee,
                     unit: rate.unit,
-                    amount: rate.amount //(volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee + rate.destinationBillofLadingFee) * (1+ rate.chargeFee / 100)
+                    amount: (volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee) * (1+ rate.chargeFee / 100) * rate.unit
                 }
             }
             updateData.warehouse = rateData.warehouse;
@@ -78,15 +90,23 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
             if(idChanged && agentData) {
                 updateData.customAduanaServices = {
                     id: agentData._id,
+                    classifyProduct: agentData.classifyProduct,
+                    rojoSelective: agentData.rojoSelective,
+                    review: agentData.review,
+                    permitsCost: agentData.permitsCost,
                     unit: agent.unit,
-                    amount: agentData.classifyProduct,
+                    amount: agentData.classifyProduct * agent.unit,
                 }
             }
             else if(agentData) {
                 updateData.customAduanaServices = {
+                    classifyProduct: agent.classifyProduct,
+                    rojoSelective: agent.rojoSelective,
+                    review: agent.review,
+                    permitsCost: agent.permitsCost,
                     id: agentData._id,
                     unit: agent.unit,
-                    amount: agent.amount
+                    amount: agent.classifyProduct * agent.unit
                 }
             }
         }

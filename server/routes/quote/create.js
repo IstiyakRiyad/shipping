@@ -34,12 +34,12 @@ router.post('/', async (req, res, next) => {
 
         const exportAndFreight = {
             id: rate._id,
-            // freightRate: rate.freightRate,
-            // portFee: rate.portFee,
-            // documentFee: rate.documentFee,
-            // billofLadingFee: rate.billofLadingFee,
-            // destinationBillofLadingFee: rate.destinationBillofLadingFee,
-            // chargeFee: rate.chargeFee,
+            freightRate: rate.freightRate,
+            portFee: rate.portFee,
+            documentFee: rate.documentFee,
+            billofLadingFee: rate.billofLadingFee,
+            destinationBillofLadingFee: rate.destinationBillofLadingFee,
+            chargeFee: rate.chargeFee,
             unit: 1,
             amount: ( volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee ) * (1+ rate.chargeFee / 100)
         }
@@ -50,10 +50,10 @@ router.post('/', async (req, res, next) => {
         if(agent) {
             customAduanaServices = {
                 id: agent._id,
-                // classifyProduct: agent.classifyProduct,
-                // rojoSelective: agent.rojoSelective,
-                // review: agent.review,
-                // permitsCost: agent.permitsCost,
+                classifyProduct: agent.classifyProduct,
+                rojoSelective: agent.rojoSelective,
+                review: agent.review,
+                permitsCost: agent.permitsCost,
                 unit: 1,
                 amount: agent.classifyProduct
             }
