@@ -19,6 +19,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
             otherCosts,
             tax,
             confirmation,
+            description,
             status,
             id
         } = req.body;
@@ -32,6 +33,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
         if(confirmation) updateData.confirmation = confirmation;
         if(status) updateData.status = status; 
         if(id) updateData.id = id;  
+        if(description) updateData.description = description;
 
 
         if(rate) {

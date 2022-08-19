@@ -21,6 +21,7 @@ router.post('/', async (req, res, next) => {
             commercialInvoice,
             statusOfShipment,
             collectionTransport,
+            description,
             name,
             email,
             phone
@@ -71,6 +72,7 @@ router.post('/', async (req, res, next) => {
             commercialInvoice,
             statusOfShipment,
             collectionTransport,
+            description,
             name,
             email,
             phone,
