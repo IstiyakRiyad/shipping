@@ -4,6 +4,8 @@ const Rate = require('../../models/rate');
 const checkAuth = require('../authorization/checkAuth');
 const createHttpError = require('http-errors');
 const Agent = require('../../models/agent');
+const calculatePallet = require('../../utils/calculatePallet');
+
 
 
 router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
@@ -15,6 +17,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
             ecommerceLogisticServices,
             deliveryToClient,
             rate,
+            pallets,
             agent,
             otherCosts,
             tax,
@@ -34,6 +37,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
         if(status) updateData.status = status; 
         if(id) updateData.id = id;  
         if(description) updateData.description = description;
+        if(pallets) updateData.pallets = pallets;
 
 
         if(rate) {
@@ -47,9 +51,13 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
 
             if(!rateData) throw createHttpError(404, 'Rate not found');
 
-            const {width, height, length, numberOfPallets} = oldQuote;
-            
-            const volume = width * height * length * numberOfPallets / 1728 / 35.315;
+            let volume;
+            if(pallets) {
+                volume = calculatePallet(pallets);
+            }
+            else {
+                volume = calculatePallet(oldQuote.pallets);
+            }
 
             if(idChanged) {
                 updateData.exportAndFreight = {

@@ -3,7 +3,7 @@ const Quote = require('../../models/quote');
 const Rate = require('../../models/rate');
 const createHttpError = require('http-errors');
 const Agent = require('../../models/agent');
-
+const calculatePallet = require('../../utils/calculatePallet');
 
 
 router.post('/', async (req, res, next) => {
@@ -12,11 +12,7 @@ router.post('/', async (req, res, next) => {
             // warehouse,
             // countryOfImport,
             rateId,
-            length,
-            width,
-            height,
-            weight,
-            numberOfPallets,
+            pallets,
             typeOfMerchandise,
             commercialInvoice,
             statusOfShipment,
@@ -31,7 +27,7 @@ router.post('/', async (req, res, next) => {
 
         if(!rate) throw createHttpError(404, 'Rate not found');
 
-        const volume = width * height * length * numberOfPallets / 1728 / 35.315;
+        const volume = calculatePallet(pallets);
 
         const exportAndFreight = {
             id: rate._id,
@@ -63,11 +59,7 @@ router.post('/', async (req, res, next) => {
         const quote = await new Quote({
             warehouse: rate.exportLocation,
             countryOfImport: rate.destinationCountry,
-            length,
-            width,
-            height,
-            weight,
-            numberOfPallets,
+            pallets,
             typeOfMerchandise,
             commercialInvoice,
             statusOfShipment,

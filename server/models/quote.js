@@ -17,18 +17,9 @@ const OtherCostSchema = Schema({
 })
 
 
-const QuoteSchema = Schema({
-    id: {
-        type: String,
-        default: Math.floor(Math.random() * 100000)
-    },
-    warehouse: {
-        type: String,
-        required: true
-    },
-    countryOfImport: {
-        type: String,
-        required: true
+const PalletsSchema = Schema({
+    unit: {
+        type: Number,
     },
     length: {
         type: Number,
@@ -46,9 +37,24 @@ const QuoteSchema = Schema({
         type: Number,
         required: true
     },
-    numberOfPallets: {
-        type: Number,
+})
+
+
+const QuoteSchema = Schema({
+    id: {
+        type: String,
+        default: Math.floor(Math.random() * 100000)
+    },
+    warehouse: {
+        type: String,
         required: true
+    },
+    countryOfImport: {
+        type: String,
+        required: true
+    },
+    pallets: {
+        type: [PalletsSchema]
     },
     typeOfMerchandise: {
         type: String,
