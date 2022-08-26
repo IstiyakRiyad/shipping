@@ -27,12 +27,8 @@ router.get('/', checkAuth(), async (req, res, next) => {
                 name: 1, 
                 warehouse: 1, 
                 countryOfImport: 1,
-                length: 1,
-                width: 1,
-                height: 1,
-                weight: 1,
                 status: 1,
-                numberOfPallets: 1,
+                pallets: 1,
                 statusOfShipment: 1
             }
         );
