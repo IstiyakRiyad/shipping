@@ -38,7 +38,7 @@ router.post('/', async (req, res, next) => {
             destinationBillofLadingFee: rate.destinationBillofLadingFee,
             chargeFee: rate.chargeFee,
             unit: 1,
-            amount: ( volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee ) * (1+ rate.chargeFee / 100)
+            amount: ( volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee + rate.destinationBillofLadingFee) * (1+ rate.chargeFee / 100)
         }
 
         const agent = await Agent.findOne({status: 'Default'});

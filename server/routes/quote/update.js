@@ -69,7 +69,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
                     destinationBillofLadingFee: rateData.destinationBillofLadingFee,
                     chargeFee: rateData.chargeFee,
                     unit: rate.unit,
-                    amount: (volume * rateData.freightRate +  volume * rateData.portFee + rateData.documentFee + rateData.billofLadingFee ) * (1+ rateData.chargeFee / 100) * rate.unit
+                    amount: (volume * rateData.freightRate +  volume * rateData.portFee + rateData.documentFee + rateData.billofLadingFee + rateData.destinationBillofLadingFee) * (1+ rateData.chargeFee / 100) * rate.unit
                 }
             }
             else {
@@ -82,7 +82,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
                     destinationBillofLadingFee: rate.destinationBillofLadingFee,
                     chargeFee: rate.chargeFee,
                     unit: rate.unit,
-                    amount: (volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee) * (1+ rate.chargeFee / 100) * rate.unit
+                    amount: (volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee + rate.destinationBillofLadingFee) * (1+ rate.chargeFee / 100) * rate.unit
                 }
             }
             updateData.warehouse = rateData.warehouse;
