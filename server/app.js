@@ -38,10 +38,14 @@ app.use(morgan('dev'));
 app.use(compression());
 app.use(helmet());
 
+// Static
+app.use(express.static(path.resolve("client/build")));
 
 // Main Routes
 app.use(`/api/v1`, routes);
-
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+});
 
 // Not Found and Error handler
 app.use(middleware.notFoundError);
