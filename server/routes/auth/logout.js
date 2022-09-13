@@ -12,7 +12,8 @@ router.post('/', async (req, res, next) => {
 
         // Clear the cookie
         res.clearCookie('token', {
-            // path: `api/v1/`
+            // path: `api/v1/`,
+            sameSite: 'None',
         });
 
 
