@@ -24,18 +24,19 @@ router.post('/', async (req, res, next) => {
         const token = await signToken({userId: user._id});
 
         // Set cookie to response
-        res.cookie('token', token, {
-            maxAge: 6307200000000,
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production' ? true : false,
-            // sameSite: 'None',
-            path: `api/v1`,
-            signed: true
-        }); 
+        // res.cookie('token', token, {
+        //     maxAge: 6307200000000,
+        //     httpOnly: true,
+        //     secure: process.env.NODE_ENV === 'production' ? true : false,
+        //     // sameSite: 'None',
+        //     path: `api/v1`,
+        //     signed: true
+        // }); 
 
         
         res.json({
-            message: 'Login successfully'
+            message: 'Login successfully',
+            token: `Bearer ${token}`
         });
     }
     catch(error) {
