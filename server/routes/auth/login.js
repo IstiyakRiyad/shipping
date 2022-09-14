@@ -25,10 +25,11 @@ router.post('/', async (req, res, next) => {
 
         // Set cookie to response
         res.cookie('token', token, {
+            maxAge: 6307200000000,
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production' ? true : false,
             // sameSite: 'None',
-            // path: `api/v1`,
+            path: `api/v1`,
             signed: true
         }); 
 
