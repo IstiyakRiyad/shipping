@@ -4,6 +4,7 @@ const Rate = require('../../models/rate');
 const createHttpError = require('http-errors');
 const Agent = require('../../models/agent');
 const calculatePallet = require('../../utils/calculatePallet');
+const sendMail = require('../../utils/sendMail');
 
 
 router.post('/', async (req, res, next) => {
@@ -79,6 +80,8 @@ router.post('/', async (req, res, next) => {
             message: 'Quote Information',
             data: quote
         });
+
+        sendMail();
     }
     catch(error) {
         next(error);
