@@ -1,20 +1,17 @@
-const path = require('path');
-const express = require('express');
-const cors = require('cors');
-const morgan = require('morgan');
-const compression = require('compression');
-const helmet = require('helmet');
-const cookieParser = require('cookie-parser');
+const path = require("path");
+const express = require("express");
+const cors = require("cors");
+const morgan = require("morgan");
+const compression = require("compression");
+const helmet = require("helmet");
+const cookieParser = require("cookie-parser");
 
 // Middlewares
-const middleware = require('./middleware');
-const routes = require('./routes');
+const middleware = require("./middleware");
+const routes = require("./routes");
 
-// ENV 
-const {
-    COOKIE_SECRET,
-    CLIENT_URL
-} = process.env;
+// ENV
+const { COOKIE_SECRET, CLIENT_URL } = process.env;
 
 // Create express App
 const app = express();
@@ -23,28 +20,29 @@ const app = express();
 app.use(cookieParser(COOKIE_SECRET));
 
 // Setup cors
-app.use(cors({
+app.use(
+  cors({
     origin: CLIENT_URL,
-    credentials: true
-}));
-
+    credentials: true,
+  })
+);
 
 // Setup express middlewares'
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 // Setup Middleware
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(compression());
 app.use(helmet());
 
 // Static
-app.use(express.static(path.resolve("client/build")));
+app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 // Main Routes
 app.use(`/api/v1`, routes);
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
 
 // Not Found and Error handler
