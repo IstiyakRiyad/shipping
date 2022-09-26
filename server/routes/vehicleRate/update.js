@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const Rate = require('../../models/rate');
+const VehicleRate = require('../../models/vehicleRate');
 const checkAuth = require('../authorization/checkAuth');
 
 
@@ -52,7 +52,7 @@ router.patch('/:rateId',  checkAuth(), async (req, res, next) => {
         if(status)updateData.status = status;     
         if(note)updateData.note = note;
 
-        const rate = await Rate.findOneAndUpdate({_id: rateId}, {$set: updateData}, {new: true});
+        const rate = await VehicleRate.findOneAndUpdate({_id: rateId}, {$set: updateData}, {new: true});
 
 
         res.json({
