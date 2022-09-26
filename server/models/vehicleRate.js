@@ -44,8 +44,7 @@ const VehicleRateSchema = Schema({
         required: true
     }, 
     carga: {
-        type: Number,
-        required: true
+        type: Number
     },
     // end
 
