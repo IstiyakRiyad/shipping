@@ -14,7 +14,6 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
         const {quoteId} = req.params;
 
         const {
-            type,
             pickupTransportation,
             ecommerceLogisticServices,
             deliveryToClient,
@@ -44,7 +43,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
         const oldQuote = await Quote.findOne({_id: quoteId});
 
         if(!oldQuote) throw createHttpError(404, 'Quote Not Found');
-
+        const {type} = oldQuote;
 
         if(rate) {
             const {idChanged} = rate;
