@@ -44,6 +44,31 @@ const QuoteSchema = Schema(
 			type: String,
 			default: Math.floor(Math.random() * 100000),
 		},
+		type: {
+			type: String,
+			default: 'LCL'		// Vehicle
+		},
+		// Data for vehicle
+		vehicleYear: {
+			type: String
+		},
+		VINNumber: {
+			type: String
+		},
+		vehicleSize: {
+			type: String
+		},
+		knowAduanaServices: {
+			type: String
+		},
+		startAndDrive: {
+			type: String
+		},
+		image: {
+			type: String
+		},
+
+		// End data for vehicle
 		warehouse: {
 			type: String,
 			required: true,
@@ -56,20 +81,16 @@ const QuoteSchema = Schema(
 			type: [PalletsSchema],
 		},
 		typeOfMerchandise: {
-			type: String,
-			required: true,
+			type: String
 		},
 		commercialInvoice: {
-			type: String,
-			required: true,
+			type: String
 		},
 		statusOfShipment: {
-			type: String,
-			required: true,
+			type: String
 		},
 		collectionTransport: {
-			type: String,
-			required: true,
+			type: String
 		},
 		description: {
 			type: String,

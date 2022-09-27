@@ -24,6 +24,7 @@ router.get('/', checkAuth(), async (req, res, next) => {
         const quote = await Quote.find(
             query, 
             {
+                type: 1,
                 name: 1, 
                 warehouse: 1, 
                 countryOfImport: 1,
