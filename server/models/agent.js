@@ -40,6 +40,10 @@ const AgentSchema = Schema({
     note: {
         type: String
     },
+    vehicleRate: {
+        type: Number,
+        default: 0
+    },
     status: {
         type: String,
         default: 'Active'

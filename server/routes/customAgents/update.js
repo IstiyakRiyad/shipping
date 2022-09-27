@@ -20,6 +20,7 @@ router.patch('/:agentId', checkAuth(), async (req, res, next) => {
             status,
             id,
             description,
+            vehicleRate,
             note
         } = req.body;
         
@@ -35,6 +36,7 @@ router.patch('/:agentId', checkAuth(), async (req, res, next) => {
         if(review) updateData.review = review;
         if(permitsCost) updateData.permitsCost = permitsCost;
         if(status) updateData.status = status;
+        if(vehicleRate) updateData.vehicleRate = vehicleRate;
         if(note) updateData.note = note;
         
         if(status === 'Default') {

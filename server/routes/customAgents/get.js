@@ -15,6 +15,7 @@ router.get('/', checkAuth(), async (req, res, next) => {
                 country: 1, 
                 supportEmail: 1,
                 enterPhoneNumber: 1,
+                vehicleRate: 1,
                 status: 1
             }
         );

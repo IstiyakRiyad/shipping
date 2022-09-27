@@ -17,6 +17,7 @@ router.post('/', checkAuth(), async (req, res, next) => {
             review,
             permitsCost,
             description,
+            vehicleRate,
             note
         } = req.body;
         
@@ -31,6 +32,7 @@ router.post('/', checkAuth(), async (req, res, next) => {
             review,
             permitsCost,
             description,
+            vehicleRate,
             note
         }).save();
 
