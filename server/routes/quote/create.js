@@ -50,6 +50,7 @@ router.post("/", upload.single('image'), async (req, res, next) => {
       exportAndFreight = {
         id: rate._id,
         vehicleSize: rate[vehicleSize],
+        documentDeliveryFee: rate.documentDeliveryFee,
         documentFee: rate.documentFee,
         billofLadingFee: rate.billofLadingFee,
         destinationBillofLadingFee: rate.destinationBillofLadingFee,
@@ -57,6 +58,7 @@ router.post("/", upload.single('image'), async (req, res, next) => {
         unit: 1,
         amount:
           ( rate[vehicleSize] +
+            rate.documentDeliveryFee +
             rate.documentFee +
             rate.billofLadingFee +
             rate.destinationBillofLadingFee) *
