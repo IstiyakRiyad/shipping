@@ -36,6 +36,9 @@ app.use(morgan("dev"));
 app.use(compression());
 app.use(helmet());
 
+// Image
+app.use(express.static(path.resolve('data')));
+
 // Static
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
