@@ -154,6 +154,8 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
             }
             else if(agentData) {
                 updateData.customAduanaServices = {
+                    id: agent._id,
+                    vehicleRate: agent.vehicleRate,
                     classifyProduct: agent.classifyProduct,
                     rojoSelective: agent.rojoSelective,
                     review: agent.review,
