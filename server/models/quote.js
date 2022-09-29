@@ -64,6 +64,9 @@ const QuoteSchema = Schema(
 		startAndDrive: {
 			type: String
 		},
+		vehicleModel: {
+			type: String
+		},
 		image: {
 			type: String
 		},

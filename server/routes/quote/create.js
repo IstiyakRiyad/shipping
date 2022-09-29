@@ -21,6 +21,7 @@ router.post("/", upload.single('image'), async (req, res, next) => {
       vehicleSize,
       knowAduanaServices,
       startAndDrive,
+      vehicleModel,
 
       // LCL
       pallets,
@@ -128,6 +129,7 @@ router.post("/", upload.single('image'), async (req, res, next) => {
       vehicleSize,
       knowAduanaServices,
       startAndDrive,
+      vehicleModel,
       image,
 
       pallets,
