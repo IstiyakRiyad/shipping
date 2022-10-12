@@ -26,7 +26,8 @@ router.get('/', async (req, res, next) => {
                 $project: {
                     partner: 1,
                     exportLocation: 1, 
-                    destinationCountry: 1
+                    destinationCountry: 1,
+                    status: 1
                 }
             }
         ])
