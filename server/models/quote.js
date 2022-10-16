@@ -83,6 +83,10 @@ const QuoteSchema = Schema(
 		pallets: {
 			type: [PalletsSchema],
 		},
+		unitType: {
+			type: String,
+			default: "in"
+		},
 		typeOfMerchandise: {
 			type: String
 		},

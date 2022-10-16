@@ -25,6 +25,7 @@ router.post("/", upload.single('image'), async (req, res, next) => {
 
       // LCL
       pallets,
+      unitType,
       typeOfMerchandise,
       commercialInvoice,
       statusOfShipment,
@@ -133,6 +134,7 @@ router.post("/", upload.single('image'), async (req, res, next) => {
       image,
 
       pallets,
+      unitType,
       typeOfMerchandise,
       commercialInvoice,
       statusOfShipment,

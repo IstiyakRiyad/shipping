@@ -19,6 +19,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
             deliveryToClient,
             rate,
             pallets,
+            unitType,
             agent,
             otherCosts,
             tax,
@@ -39,6 +40,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
         if(id) updateData.id = id;  
         if(description) updateData.description = description;
         if(pallets) updateData.pallets = pallets;
+        if(unitType) updateData.unitType = unitType;
 
         const oldQuote = await Quote.findOne({_id: quoteId});
 
