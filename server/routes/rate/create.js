@@ -20,7 +20,18 @@ router.post('/:partnerId', checkAuth(), async (req, res, next) => {
             consolidationAddress,
             heatTreatPalletRequire,
             status,
-            note
+            note,
+            // New
+            documentFeeChina,
+            clearanceFeeChina,
+            vgmFeeChina,
+            mainfestFeeChina,
+            cfsFeeChina,
+            ocFeeChina,
+            oceanFreightFeeChina,
+            destinationBillOfLadingFeeChina,
+            collectFeeChina,
+            rateType
         } = req.body;
         
         const rate = await new Rate({
@@ -36,7 +47,17 @@ router.post('/:partnerId', checkAuth(), async (req, res, next) => {
             consolidationAddress,
             heatTreatPalletRequire,
             status,
-            note
+            note,
+            documentFeeChina,
+            clearanceFeeChina,
+            vgmFeeChina,
+            mainfestFeeChina,
+            cfsFeeChina,
+            ocFeeChina,
+            oceanFreightFeeChina,
+            destinationBillOfLadingFeeChina,
+            collectFeeChina,
+            rateType
         }).save();
 
 

@@ -20,7 +20,18 @@ router.patch('/:rateId',  checkAuth(), async (req, res, next) => {
             consolidationAddress,
             heatTreatPalletRequire,
             status,
-            note
+            note,
+            // New
+            documentFeeChina,
+            clearanceFeeChina,
+            vgmFeeChina,
+            mainfestFeeChina,
+            cfsFeeChina,
+            ocFeeChina,
+            oceanFreightFeeChina,
+            destinationBillOfLadingFeeChina,
+            collectFeeChina,
+            rateType
         } = req.body;
 
         const updateData = {};
@@ -37,6 +48,18 @@ router.patch('/:rateId',  checkAuth(), async (req, res, next) => {
         if(heatTreatPalletRequire)updateData.heatTreatPalletRequire = heatTreatPalletRequire;
         if(status)updateData.status = status;     
         if(note)updateData.note = note;
+
+        // New
+        if(documentFeeChina)updateData.documentFeeChina = documentFeeChina;
+        if(clearanceFeeChina)updateData.clearanceFeeChina = clearanceFeeChina;
+        if(vgmFeeChina)updateData.vgmFeeChina = vgmFeeChina;
+        if(mainfestFeeChina)updateData.mainfestFeeChina = mainfestFeeChina;
+        if(cfsFeeChina)updateData.cfsFeeChina = cfsFeeChina;
+        if(ocFeeChina)updateData.ocFeeChina = ocFeeChina;
+        if(oceanFreightFeeChina)updateData.oceanFreightFeeChina = oceanFreightFeeChina;
+        if(destinationBillOfLadingFeeChina)updateData.destinationBillOfLadingFeeChina = destinationBillOfLadingFeeChina;
+        if(collectFeeChina)updateData.collectFeeChina = collectFeeChina;
+        if(rateType)updateData.rateType = rateType;
 
         const rate = await Rate.findOneAndUpdate({_id: rateId}, {$set: updateData}, {new: true});
 

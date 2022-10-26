@@ -14,24 +14,19 @@ const RateSchema = Schema({
         required: true
     },
     freightRate: {
-        type: Number,
-        required: true
+        type: Number
     },
     portFee: {
-        type: Number,
-        required: true
+        type: Number
     },
     documentFee: {
-        type: Number,
-        required: true
+        type: Number
     },
     billofLadingFee: {
-        type: Number,
-        required: true
+        type: Number
     },
     destinationBillofLadingFee: {
-        type: Number,
-        required: true
+        type: Number
     },
     chargeFee: {
         type: Number,
@@ -46,9 +41,42 @@ const RateSchema = Schema({
     note: {
         type: String,
     },
+
+    // New
+    documentFeeChina: {
+        type: Number
+    },
+    clearanceFeeChina: {
+        type: Number
+    },
+    vgmFeeChina: {
+        type: Number
+    },
+    mainfestFeeChina: {
+        type: Number
+    },
+    cfsFeeChina: {
+        type: Number
+    },
+    ocFeeChina: {
+        type: Number
+    },
+    oceanFreightFeeChina: {
+        type: Number
+    },
+    destinationBillOfLadingFeeChina: {
+        type: Number
+    },
+    collectFeeChina: {
+        type: Number
+    },
     status: {
         type: String,
         default: 'Pending'
+    },
+    rateType: {
+        type: String,
+        default: "global"
     }
 }, {timestamps: true});
 
