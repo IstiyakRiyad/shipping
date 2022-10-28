@@ -92,6 +92,7 @@ router.post("/", upload.single('image'), async (req, res, next) => {
       if(rate.rateType == 'global') {
         exportAndFreight = {
           id: rate._id,
+          rateType: rate.rateType,
           freightRate: rate.freightRate,
           portFee: rate.portFee,
           documentFee: rate.documentFee,
@@ -111,6 +112,7 @@ router.post("/", upload.single('image'), async (req, res, next) => {
       else if(rate.rateType == 'china') {
         exportAndFreight = {
           id: rate._id,
+          rateType: rate.rateType,
           documentFeeChina: rate.documentFeeChina,
           clearanceFeeChina: rate.clearanceFeeChina,
           vgmFeeChina: rate.vgmFeeChina,
