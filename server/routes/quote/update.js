@@ -91,40 +91,99 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
                     rateData = await Rate.findOne({_id: rate.id});
 
                     if(!rateData) throw createHttpError(404, 'Rate not found');
-        
-                    let volume;
+                    
+                    let volume, finalUnitType = unitType || oldQuote.unitType;
+
                     if(pallets) {
-                        volume = calculatePallet(pallets);
+                        volume = calculatePallet(pallets, finalUnitType);
                     }
                     else {
-                        volume = calculatePallet(oldQuote.pallets);
+                        volume = calculatePallet(oldQuote.pallets, finalUnitType);
                     }
         
                     if(idChanged) {
-                        updateData.exportAndFreight = {
-                            id: rateData.id,
-                            freightRate: rateData.freightRate,
-                            portFee: rateData.portFee,
-                            documentFee: rateData.documentFee,
-                            billofLadingFee: rateData.billofLadingFee,
-                            destinationBillofLadingFee: rateData.destinationBillofLadingFee,
-                            chargeFee: rateData.chargeFee,
-                            unit: rate.unit,
-                            amount: (volume * rateData.freightRate +  volume * rateData.portFee + rateData.documentFee + rateData.billofLadingFee + rateData.destinationBillofLadingFee) * (1+ rateData.chargeFee / 100) * rate.unit
+                        if(finalUnitType === 'global') {
+                            updateData.exportAndFreight = {
+                                id: rateData.id,
+                                freightRate: rateData.freightRate,
+                                portFee: rateData.portFee,
+                                documentFee: rateData.documentFee,
+                                billofLadingFee: rateData.billofLadingFee,
+                                destinationBillofLadingFee: rateData.destinationBillofLadingFee,
+                                chargeFee: rateData.chargeFee,
+                                unit: rate.unit,
+                                amount: (volume * rateData.freightRate +  volume * rateData.portFee + rateData.documentFee + rateData.billofLadingFee + rateData.destinationBillofLadingFee) * (1+ rateData.chargeFee / 100) * rate.unit
+                            }
                         }
+                        else if(finalUnitType === 'china') {
+                            updateData.exportAndFreight = {
+                                id: rateData.id,
+                                documentFeeChina: rateData.documentFeeChina,
+                                clearanceFeeChina: rateData.clearanceFeeChina,
+                                vgmFeeChina: rateData.vgmFeeChina,
+                                mainfestFeeChina: rateData.mainfestFeeChina,
+                                cfsFeeChina: rateData.cfsFeeChina,
+                                ocFeeChina: rateData.ocFeeChina,
+                                oceanFreightFeeChina: rateData.oceanFreightFeeChina,
+                                destinationBillOfLadingFeeChina: rateData.destinationBillOfLadingFeeChina,
+                                collectFeeChina: rateData.collectFeeChina,
+                                unit: rate.unit,
+                                amount: (
+                                    rateData.documentFeeChina +
+                                    rateData.clearanceFeeChina +
+                                    rateData.vgmFeeChina +
+                                    rateData.mainfestFeeChina +
+                                    volume * rateData.cfsFeeChina +
+                                    volume * rateData.ocFeeChina +
+                                    volume * rateData.oceanFreightFeeChina +
+                                    rateData.destinationBillOfLadingFeeChina
+                                  ) *
+                                  (1 + rateData.collectFeeChina / 100) * rate.unit
+                            }
+                        }
+                        
                     }
                     else {
-                        updateData.exportAndFreight = {
-                            id: rate.id,
-                            freightRate: rate.freightRate,
-                            portFee: rate.portFee,
-                            documentFee: rate.documentFee,
-                            billofLadingFee: rate.billofLadingFee,
-                            destinationBillofLadingFee: rate.destinationBillofLadingFee,
-                            chargeFee: rate.chargeFee,
-                            unit: rate.unit,
-                            amount: (volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee + rate.destinationBillofLadingFee) * (1+ rate.chargeFee / 100) * rate.unit
+                        if(finalUnitType === 'global') {
+                            updateData.exportAndFreight = {
+                                id: rate.id,
+                                freightRate: rate.freightRate,
+                                portFee: rate.portFee,
+                                documentFee: rate.documentFee,
+                                billofLadingFee: rate.billofLadingFee,
+                                destinationBillofLadingFee: rate.destinationBillofLadingFee,
+                                chargeFee: rate.chargeFee,
+                                unit: rate.unit,
+                                amount: (volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee + rate.destinationBillofLadingFee) * (1+ rate.chargeFee / 100) * rate.unit
+                            }
+                        } 
+                        else if(finalUnitType === 'china') {
+                            updateData.exportAndFreight = {
+                                id: rate.id,
+                                documentFeeChina: rate.documentFeeChina,
+                                clearanceFeeChina: rate.clearanceFeeChina,
+                                vgmFeeChina: rate.vgmFeeChina,
+                                mainfestFeeChina: rate.mainfestFeeChina,
+                                cfsFeeChina: rate.cfsFeeChina,
+                                ocFeeChina: rate.ocFeeChina,
+                                oceanFreightFeeChina: rate.oceanFreightFeeChina,
+                                destinationBillOfLadingFeeChina: rate.destinationBillOfLadingFeeChina,
+                                collectFeeChina: rate.collectFeeChina,
+                                unit: rate.unit,
+                                amount: (
+                                    rate.documentFeeChina +
+                                    rate.clearanceFeeChina +
+                                    rate.vgmFeeChina +
+                                    rate.mainfestFeeChina +
+                                    volume * rate.cfsFeeChina +
+                                    volume * rate.ocFeeChina +
+                                    volume * rate.oceanFreightFeeChina +
+                                    rate.destinationBillOfLadingFeeChina
+                                  ) *
+                                  (1 + rate.collectFeeChina / 100) * rate.unit
+                            }
                         }
+                        
                     }
                     updateData.warehouse = rateData.warehouse;
                     updateData.countryOfImport = rateData.countryOfImport;
