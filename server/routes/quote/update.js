@@ -146,7 +146,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
                         
                     }
                     else {
-                        if(rate.rateType === 'global') {
+                        if(rateData.rateType === 'global') {
                             updateData.exportAndFreight = {
                                 id: rate.id,
                                 rateType: rate.rateType,
@@ -160,7 +160,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
                                 amount: (volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee + rate.destinationBillofLadingFee) * (1+ rate.chargeFee / 100) * rate.unit
                             }
                         } 
-                        else if(rate.rateType === 'china') {
+                        else if(rateData.rateType === 'china') {
                             updateData.exportAndFreight = {
                                 id: rate.id,
                                 rateType: rate.rateType,
