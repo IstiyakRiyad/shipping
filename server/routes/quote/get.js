@@ -31,6 +31,7 @@ router.get('/', checkAuth(), async (req, res, next) => {
                 status: 1,
                 pallets: 1,
                 unitType: 1,
+                qubic: 1,
                 statusOfShipment: 1,
                 vehicleSize: 1
             }
