@@ -39,7 +39,7 @@ router.post("/", upload.single('image'), async (req, res, next) => {
       phone,
     } = req.body;
 
-    let rate, exportAndFreight, customAduanaServices, image;
+    let rate, exportAndFreight, customAduanaServices, image, volume;
     if(type === 'Vehicle') {
       rate = await VehicleRate.findOne({_id: rateId});
 
@@ -87,7 +87,7 @@ router.post("/", upload.single('image'), async (req, res, next) => {
       
       if (!rate) throw createHttpError(404, "Rate not found");
 
-      const volume = calculatePallet(pallets, unitType, rate.rateType);
+      volume = calculatePallet(pallets, unitType, rate.rateType);
 
       if(rate.rateType == 'global') {
         exportAndFreight = {
@@ -167,6 +167,7 @@ router.post("/", upload.single('image'), async (req, res, next) => {
 
       pallets,
       unitType,
+      qubic: volume,
       typeOfMerchandise,
       commercialInvoice,
       statusOfShipment,

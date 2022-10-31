@@ -87,6 +87,9 @@ const QuoteSchema = Schema(
 			type: String,
 			default: "in"
 		},
+		qubic: {
+			type: Number
+		},
 		typeOfMerchandise: {
 			type: String
 		},

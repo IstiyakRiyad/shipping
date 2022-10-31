@@ -100,6 +100,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
                     else {
                         volume = calculatePallet(oldQuote.pallets, finalUnitType, rateData.rateType);
                     }
+                    updateData.qubic = volume;
         
                     if(idChanged) {
                         if(rateData.rateType === 'global') {
