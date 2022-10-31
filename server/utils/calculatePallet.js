@@ -6,14 +6,15 @@ module.exports = (pallets, unitType) => {
         totalWeight += weight;
     });
 
-    if(volume < 1) volume = 1;
-    if(unitType = 'inch') {
+    if(unitType == 'inch') {
         totalWeight *= 0.453592;
     }
 
     if(totalWeight / 500 > volume) {
-        volume = totalWeight;
+        volume = totalWeight / 500;
     }
-     
+    
+    if(volume < 1) volume = 1;
+
     return volume;
 }
