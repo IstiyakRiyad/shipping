@@ -1,4 +1,4 @@
-module.exports = (pallets, unitType) => {
+module.exports = (pallets, unitType, rateType) => {
     let volume = 0, totalWeight = 0;
     
     pallets.map(({unit, length, width, height, weight}) => {
@@ -10,7 +10,7 @@ module.exports = (pallets, unitType) => {
         totalWeight *= 0.453592;
     }
 
-    if(totalWeight / 500 > volume) {
+    if((rateType == 'china') && (totalWeight / 500 > volume)) {
         volume = totalWeight / 500;
     }
     

@@ -95,10 +95,10 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
                     let volume, finalUnitType = unitType || oldQuote.unitType;
 
                     if(pallets) {
-                        volume = calculatePallet(pallets, finalUnitType);
+                        volume = calculatePallet(pallets, finalUnitType, rateData.rateType);
                     }
                     else {
-                        volume = calculatePallet(oldQuote.pallets, finalUnitType);
+                        volume = calculatePallet(oldQuote.pallets, finalUnitType, rateData.rateType);
                     }
         
                     if(idChanged) {

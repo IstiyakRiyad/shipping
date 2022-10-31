@@ -87,7 +87,7 @@ router.post("/", upload.single('image'), async (req, res, next) => {
       
       if (!rate) throw createHttpError(404, "Rate not found");
 
-      const volume = calculatePallet(pallets, unitType);
+      const volume = calculatePallet(pallets, unitType, rate.rateType);
 
       if(rate.rateType == 'global') {
         exportAndFreight = {
