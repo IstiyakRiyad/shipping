@@ -3,7 +3,7 @@ module.exports = (pallets, unitType, rateType) => {
     
     pallets.map(({unit, length, width, height, weight}) => {
         volume += width * height * length * unit / 1728 / 35.315;
-        totalWeight += weight;
+        totalWeight += weight * unit;
     });
 
     if(unitType == 'inch') {
