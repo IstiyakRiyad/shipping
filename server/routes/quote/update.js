@@ -138,10 +138,9 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
                                     rateData.mainfestFeeChina +
                                     volume * rateData.cfsFeeChina +
                                     volume * rateData.ocFeeChina +
-                                    volume * rateData.oceanFreightFeeChina +
-                                    rateData.destinationBillOfLadingFeeChina
-                                  ) *
-                                  (1 + rateData.collectFeeChina / 100) * rate.unit
+                                    (volume * rateData.oceanFreightFeeChina +
+                                    rateData.destinationBillOfLadingFeeChina ) * (1 + rateData.collectFeeChina / 100)
+                                  ) * rate.unit
                             }
                         }
                         
@@ -182,10 +181,9 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
                                     rate.mainfestFeeChina +
                                     volume * rate.cfsFeeChina +
                                     volume * rate.ocFeeChina +
-                                    volume * rate.oceanFreightFeeChina +
-                                    rate.destinationBillOfLadingFeeChina
-                                  ) *
-                                  (1 + rate.collectFeeChina / 100) * rate.unit
+                                    (volume * rate.oceanFreightFeeChina +
+                                    rate.destinationBillOfLadingFeeChina) * (1 + rate.collectFeeChina / 100)
+                                  ) * rate.unit
                             }
                         }
                         

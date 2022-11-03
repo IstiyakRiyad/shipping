@@ -131,10 +131,9 @@ router.post("/", upload.single('image'), async (req, res, next) => {
               rate.mainfestFeeChina +
               volume * rate.cfsFeeChina +
               volume * rate.ocFeeChina +
-              volume * rate.oceanFreightFeeChina +
-              rate.destinationBillOfLadingFeeChina
-            ) *
-            (1 + rate.collectFeeChina / 100),
+              (volume * rate.oceanFreightFeeChina +
+              rate.destinationBillOfLadingFeeChina) * (1 + rate.collectFeeChina / 100)
+            ),
         };
       }
       
