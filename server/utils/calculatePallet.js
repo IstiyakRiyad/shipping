@@ -6,7 +6,7 @@ module.exports = (pallets, unitType, rateType) => {
         totalWeight += weight * unit;
     });
 
-    if(unitType == 'inch') {
+    if(unitType !== 'inch') {
         totalWeight *= 0.453592;
     }
 
