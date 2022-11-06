@@ -1,4 +1,4 @@
-module.exports = (pallets, unitType, rateType) => {
+module.exports = (pallets, unitType = 'in', rateType) => {
     let volume = 0, totalWeight = 0;
     
     pallets.map(({unit, length, width, height, weight}) => {
@@ -6,7 +6,7 @@ module.exports = (pallets, unitType, rateType) => {
         totalWeight += weight * unit;
     });
 
-    if(unitType !== 'inch') {
+    if(unitType !== 'in') {
         totalWeight *= 0.453592;
     }
 
