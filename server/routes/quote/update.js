@@ -81,7 +81,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
                             destinationBillofLadingFee: rateData.destinationBillofLadingFee,
                             chargeFee: rateData.chargeFee,
                             unit: rate.unit,
-                            amount: (rateData[rate.vehicleSize] + rateData.documentDeliveryFee + rateData.documentFee + rateData.billofLadingFee + rateData.destinationBillofLadingFee) * (1+ rateData.chargeFee / 100) * rate.unit
+                            amount: (rateData[vehicleSize] + rateData.documentDeliveryFee + rateData.documentFee + rateData.billofLadingFee + rateData.destinationBillofLadingFee) * (1+ rateData.chargeFee / 100) * rate.unit
                         }
                     }
                     else {
