@@ -26,7 +26,14 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
             confirmation,
             description,
             status,
-            id
+            id,
+            // Vehicle
+            vehicleYear,
+            VINNumber,
+            vehicleSize,
+            knowAduanaServices,
+            startAndDrive,
+            vehicleModel
         } = req.body;
         
         const updateData = {};
@@ -41,6 +48,14 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
         if(description) updateData.description = description;
         if(pallets) updateData.pallets = pallets;
         if(unitType) updateData.unitType = unitType;
+
+        // Vehicle
+        if(vehicleYear) updateData.vehicleYear = vehicleYear;
+        if(VINNumber) updateData.VINNumber = VINNumber;
+        if(vehicleSize) updateData.vehicleSize = vehicleSize;
+        if(knowAduanaServices) updateData.knowAduanaServices = knowAduanaServices;
+        if(startAndDrive) updateData.startAndDrive = startAndDrive;
+        if(vehicleModel) updateData.vehicleModel = vehicleModel;
 
         const oldQuote = await Quote.findOne({_id: quoteId});
 
@@ -59,7 +74,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
                     if(idChanged) {
                         updateData.exportAndFreight = {
                             id: rateData.id,
-                            vehicleSize: rateData[rate.vehicleSize],
+                            vehicleSize: rateData[vehicleSize],
                             documentDeliveryFee: rateData.documentDeliveryFee,
                             documentFee: rateData.documentFee,
                             billofLadingFee: rateData.billofLadingFee,

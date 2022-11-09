@@ -156,7 +156,8 @@ router.post("/", upload.single('image'), async (req, res, next) => {
     const quote = await new Quote({
       type,
       warehouse: rate.exportLocation,
-      countryOfImport: rate.destinationCountry,vehicleYear,
+      countryOfImport: rate.destinationCountry,
+      vehicleYear,
       VINNumber,
       vehicleSize,
       knowAduanaServices,
