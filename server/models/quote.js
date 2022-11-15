@@ -46,8 +46,28 @@ const QuoteSchema = Schema(
 		},
 		type: {
 			type: String,
-			default: 'LCL'		// Vehicle
+			default: 'LCL'		// Vehicle, FCL
 		},
+
+		// Data for FCL
+		containerType: {
+			type: String,
+		},
+		origin: {
+			type: String
+		},	
+		originExtra: {
+			type: String
+		},
+		destination: {
+			type: String
+		},
+		destinationExtra: {
+			type: String
+		},
+		// End of FCL Data	
+
+
 		// Data for vehicle
 		vehicleYear: {
 			type: String
@@ -73,12 +93,10 @@ const QuoteSchema = Schema(
 
 		// End data for vehicle
 		warehouse: {
-			type: String,
-			required: true,
+			type: String
 		},
 		countryOfImport: {
-			type: String,
-			required: true,
+			type: String
 		},
 		pallets: {
 			type: [PalletsSchema],

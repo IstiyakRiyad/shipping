@@ -15,6 +15,15 @@ router.post("/", upload.single('image'), async (req, res, next) => {
       // warehouse,
       // countryOfImport,
       type,
+      
+      // FCL
+      containerType,
+      origin,
+      originExtra,
+      destination,
+      destinationExtra,
+
+
       // Vehicle Values
       vehicleYear,
       VINNumber,
@@ -82,7 +91,7 @@ router.post("/", upload.single('image'), async (req, res, next) => {
         };
       }
     }
-    else {
+    else if(type === 'LCL') {
       rate = await Rate.findOne({ _id: rateId });
       
       if (!rate) throw createHttpError(404, "Rate not found");
@@ -155,6 +164,13 @@ router.post("/", upload.single('image'), async (req, res, next) => {
 
     const quote = await new Quote({
       type,
+      // FCL
+      containerType,
+      origin,
+      originExtra,
+      destination,
+      destinationExtra,
+
       warehouse: rate.exportLocation,
       countryOfImport: rate.destinationCountry,
       vehicleYear,

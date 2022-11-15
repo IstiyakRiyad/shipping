@@ -26,6 +26,12 @@ router.get('/', checkAuth(), async (req, res, next) => {
             {
                 type: 1,
                 name: 1, 
+                email: 1,
+                phone: 1,
+                // FCL
+                origin: 1,
+                destination: 1,
+                
                 warehouse: 1, 
                 countryOfImport: 1,
                 status: 1,

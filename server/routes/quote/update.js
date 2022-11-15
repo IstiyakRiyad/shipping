@@ -33,7 +33,14 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
             vehicleSize,
             knowAduanaServices,
             startAndDrive,
-            vehicleModel
+            vehicleModel,
+
+            // FCL
+            containerType,
+            origin,
+            originExtra,
+            destination,
+            destinationExtra
         } = req.body;
         
         const updateData = {};
@@ -56,6 +63,13 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
         if(knowAduanaServices) updateData.knowAduanaServices = knowAduanaServices;
         if(startAndDrive) updateData.startAndDrive = startAndDrive;
         if(vehicleModel) updateData.vehicleModel = vehicleModel;
+
+        // FCL
+        if(containerType) updateData.containerType = containerType; 
+        if(origin) updateData.origin = origin; 
+        if(originExtra) updateData.originExtra = originExtra; 
+        if(destination) updateData.destination = destination; 
+        if(destinationExtra) updateData.destinationExtra = destinationExtra; 
 
         const oldQuote = await Quote.findOne({_id: quoteId});
 
