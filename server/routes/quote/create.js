@@ -171,8 +171,8 @@ router.post("/", upload.single('image'), async (req, res, next) => {
       destination,
       destinationExtra,
 
-      warehouse: rate.exportLocation,
-      countryOfImport: rate.destinationCountry,
+      warehouse: rate && rate.exportLocation,
+      countryOfImport: rate && rate.destinationCountry,
       vehicleYear,
       VINNumber,
       vehicleSize,
@@ -194,8 +194,8 @@ router.post("/", upload.single('image'), async (req, res, next) => {
       phone,
       exportAndFreight,
       customAduanaServices,
-      consolidationAddress: rate.consolidationAddress,
-      heatTreatPalletRequire: rate.heatTreatPalletRequire,
+      consolidationAddress: rate && rate.consolidationAddress,
+      heatTreatPalletRequire: rate && rate.heatTreatPalletRequire,
     }).save();
 
     res.json({
