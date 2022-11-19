@@ -15,6 +15,9 @@ router.post("/", upload.single('image'), async (req, res, next) => {
       // warehouse,
       // countryOfImport,
       type,
+
+      // AFQ
+      isDangerous,
       
       // FCL
       containerType,
@@ -164,6 +167,10 @@ router.post("/", upload.single('image'), async (req, res, next) => {
 
     const quote = await new Quote({
       type,
+
+      // AFQ
+      isDangerous,
+
       // FCL
       containerType,
       origin,

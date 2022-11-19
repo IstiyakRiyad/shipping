@@ -46,7 +46,12 @@ const QuoteSchema = Schema(
 		},
 		type: {
 			type: String,
-			default: 'LCL'		// Vehicle, FCL
+			default: 'LCL'		// Vehicle, FCL, AFQ
+		},
+
+		// Data for AFQ
+		isDangerous: {
+			type: String
 		},
 
 		// Data for FCL

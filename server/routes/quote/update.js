@@ -40,7 +40,10 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
             origin,
             originExtra,
             destination,
-            destinationExtra
+            destinationExtra,
+
+            // AFQ
+            isDangerous
         } = req.body;
         
         const updateData = {};
@@ -70,6 +73,9 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
         if(originExtra) updateData.originExtra = originExtra; 
         if(destination) updateData.destination = destination; 
         if(destinationExtra) updateData.destinationExtra = destinationExtra; 
+
+        // AFQ
+        if(isDangerous) updateData.isDangerous = isDangerous;
 
         const oldQuote = await Quote.findOne({_id: quoteId});
 
