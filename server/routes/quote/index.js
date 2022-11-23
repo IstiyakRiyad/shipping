@@ -4,11 +4,13 @@ const create = require('./create');
 const update = require('./update');
 const getOne = require('./getOne');
 const getAll = require('./get');
+const getAllUser = require('./getUsers');
 const pullData = require('./removeOtherCost');
 // const deleteOne = require('./delete');
 
 
 
+router.use('/user', getAllUser);
 router.use('/', create);
 router.use('/', update);
 router.use('/', getOne);
