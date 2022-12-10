@@ -53,14 +53,22 @@ const QuoteSchema = Schema(
 		isDangerous: {
 			type: String
 		},
+		pickupFromOrigin: {
+			type: String
+		},
+		deliveryAtDestination: {
+			type: String
+		},
 
-		// Data for FCL
+
+
+		// Data for FCL & AFQ
 		containerType: {
 			type: String,
 		},
 		origin: {
 			type: String
-		},	
+		},
 		originExtra: {
 			type: String
 		},

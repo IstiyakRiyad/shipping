@@ -6,10 +6,17 @@ module.exports = (pallets, unitType = 'in', rateType) => {
         totalWeight += weight * unit;
     });
 
-    if(unitType !== 'in') {
+    if(rateType === 'afq' && unitType === 'in') {
+        totalWeight *= 0.453592;
+    }
+    else if(unitType !== 'in') {
         totalWeight *= 0.453592;
     }
 
+    // LCL
+    if(rateType === 'afq' && (volume * 0.453592 / 166) < totalWeight) {
+        volume = totalWeight;
+    }
     if((rateType == 'china') && (totalWeight / 500 > volume)) {
         volume = totalWeight / 500;
     }
