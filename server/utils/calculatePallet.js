@@ -13,7 +13,7 @@ const calculatePallet = (pallets, unitType = 'in', rateType) => {
     if(rateType === 'afq' && unitType === 'in') {
         totalWeight *= 0.453592;
     }
-    else if(unitType !== 'in') {
+    else if(rateType !== 'afq' && unitType !== 'in') {
         totalWeight *= 0.453592;
     }
 
@@ -32,10 +32,19 @@ const calculatePallet = (pallets, unitType = 'in', rateType) => {
     
     if(volume < 1) volume = 1;
 
-    return volume;
+    return Math.round(volume);
 }
 
 module.exports = calculatePallet;
 
-
+// console.log(calculatePallet( [
+//     {
+//         "unit": 1,
+//         "length": 76,
+//         "width": 63,
+//         "height": 50,
+//         "weight": 68,
+//         "_id": "6394b9207d72246af5046f31"
+//     }
+// ], 'cm', 'afq'))
 
