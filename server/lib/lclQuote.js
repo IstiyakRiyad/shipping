@@ -7,7 +7,12 @@ const calculatePallet = require("../utils/calculatePallet");
 
 
 const lclQuote = async (req) => {
-    const { rateId } = req.body;
+    const { 
+        rateId, 
+        pallets,
+        unitType
+    } = req.body;
+    
     let exportAndFreight, customAduanaServices;
     const rate = await Rate.findOne({ _id: rateId });
 

@@ -6,7 +6,12 @@ const calculatePallet = require("../utils/calculatePallet");
 
 
 const afqQuote = async (req) => {
-    const { rateId } = req.body;
+    const { 
+        rateId, 
+        pallets,
+        unitType
+    } = req.body;
+    
     let exportAndFreight;
     const rate = await AFQRate.findOne({ _id: rateId });
 

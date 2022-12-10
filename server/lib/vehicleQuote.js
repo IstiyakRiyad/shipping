@@ -6,7 +6,7 @@ const { saveImage } = require('../utils/storeImage');
 
 
 const vehicleQuote = async (req) => {
-    const { rateId } = req.body;
+    const { rateId, vehicleSize } = req.body;
 
     let image, customAduanaServices;
     let rate = await VehicleRate.findOne({ _id: rateId });
