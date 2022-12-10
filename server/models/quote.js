@@ -172,7 +172,7 @@ const QuoteSchema = Schema(
 			type: Object,
 			default: {
 				unit: 1,
-				amount: 250,
+				amount: 0,
 			},
 		},
 		customAduanaServices: {
