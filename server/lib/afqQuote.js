@@ -1,4 +1,5 @@
 const AFQRate = require("../models/afqRate");
+const Agent = require('../models/agent');
 const createHttpError = require("http-errors");
 const calculatePallet = require("../utils/calculatePallet");
 
