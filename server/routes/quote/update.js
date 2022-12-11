@@ -49,7 +49,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
             deliveryAtDestination
         } = req.body;
         
-        const updateData = {};
+        let updateData = {};
 
         if(pickupTransportation) updateData.pickupTransportation = pickupTransportation;
         if(ecommerceLogisticServices) updateData.ecommerceLogisticServices = ecommerceLogisticServices;
