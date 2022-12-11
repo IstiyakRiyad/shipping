@@ -69,7 +69,7 @@ const afqQuote = async (req) => {
         unitType
     } = req.body;
     
-    let exportAndFreight;
+    let exportAndFreight, customAduanaServices;
     const rate = await AFQRate.findOne({ _id: rateId });
 
     if (!rate) throw createHttpError(404, "Rate not found");
@@ -87,7 +87,21 @@ const afqQuote = async (req) => {
         amount: calculateAmount(rate, volume, 1)
     };
 
-    return { rate, exportAndFreight, volume }
+    const agent = await Agent.findOne({ status: "Default" });
+
+    if (agent) {
+        customAduanaServices = {
+            id: agent._id,
+            classifyProduct: agent.classifyProduct,
+            rojoSelective: agent.rojoSelective,
+            review: agent.review,
+            permitsCost: agent.permitsCost,
+            unit: 1,
+            amount: agent.classifyProduct,
+        };
+    }
+
+    return { rate, exportAndFreight, customAduanaServices, volume }
 }
 
 
