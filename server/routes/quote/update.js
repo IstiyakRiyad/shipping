@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const Quote = require('../../models/quote');
-const Rate = require('../../models/rate');
 const checkAuth = require('../authorization/checkAuth');
 const createHttpError = require('http-errors');
-const Agent = require('../../models/agent');
-const calculatePallet = require('../../utils/calculatePallet');
-const VehicleRate = require('../../models/vehicleRate');
+const {vehicleRateUpdate} = require('../../lib/vehicleQuote');
+const {lclRateUpdate} = require('../../lib/lclQuote');
+const {afqRateUpdate} = require('../../lib/afqQuote');
+const {agentUpdate} = require('../../lib/agent');
 
 
 
@@ -27,6 +27,7 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
             description,
             status,
             id,
+
             // Vehicle
             vehicleYear,
             VINNumber,
@@ -43,7 +44,9 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
             destinationExtra,
 
             // AFQ
-            isDangerous
+            isDangerous,
+            pickupFromOrigin,
+            deliveryAtDestination
         } = req.body;
         
         const updateData = {};
@@ -76,6 +79,9 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
 
         // AFQ
         if(isDangerous) updateData.isDangerous = isDangerous;
+        if(pickupFromOrigin) updateData.pickupFromOrigin = pickupFromOrigin;
+        if(deliveryAtDestination) updateData.deliveryAtDestination = deliveryAtDestination;
+
 
         const oldQuote = await Quote.findOne({_id: quoteId});
 
@@ -83,187 +89,29 @@ router.patch('/:quoteId', checkAuth(), async (req, res, next) => {
         const {type} = oldQuote;
 
         if(rate) {
-            const {idChanged} = rate;
-            let rateData;
             switch(type) {
-                case 'Vehicle': 
-                    rateData = await VehicleRate.findOne({_id: rate.id});
+                case 'AFQ': 
+                    const afqUpdate = await afqRateUpdate(req, oldQuote);
 
-                    if(!rateData) throw createHttpError(404, 'Rate not found');
-        
-                    if(idChanged) {
-                        updateData.exportAndFreight = {
-                            id: rateData.id,
-                            vehicleSize: rateData[vehicleSize],
-                            documentDeliveryFee: rateData.documentDeliveryFee,
-                            documentFee: rateData.documentFee,
-                            billofLadingFee: rateData.billofLadingFee,
-                            destinationBillofLadingFee: rateData.destinationBillofLadingFee,
-                            chargeFee: rateData.chargeFee,
-                            unit: rate.unit,
-                            amount: (rateData[vehicleSize] + rateData.documentDeliveryFee + rateData.documentFee + rateData.billofLadingFee + rateData.destinationBillofLadingFee) * (1+ rateData.chargeFee / 100) * rate.unit
-                        }
-                    }
-                    else {
-                        updateData.exportAndFreight = {
-                            id: rate.id,
-                            vehicleSize: rate.vehicleSize,
-                            documentDeliveryFee: rate.documentDeliveryFee,
-                            documentFee: rate.documentFee,
-                            billofLadingFee: rate.billofLadingFee,
-                            destinationBillofLadingFee: rate.destinationBillofLadingFee,
-                            chargeFee: rate.chargeFee,
-                            unit: rate.unit,
-                            amount: (rate.vehicleSize + rate.documentDeliveryFee + rate.documentFee + rate.billofLadingFee + rate.destinationBillofLadingFee) * (1+ rate.chargeFee / 100) * rate.unit
-                        }
-                    }
-                    updateData.warehouse = rateData.warehouse;
-                    updateData.countryOfImport = rateData.countryOfImport;
-                    updateData.consolidationAddress = rateData.consolidationAddress;
-                    updateData.heatTreatPalletRequire = rateData.heatTreatPalletRequire;
+                    updateData = {...updateData, ...afqUpdate};
+                    break;
+                case 'Vehicle': 
+                    const vehicleRate = await vehicleRateUpdate(req);
+
+                    updateData = {...updateData, ...vehicleRate};
                     break;
                 default:
-                    rateData = await Rate.findOne({_id: rate.id});
+                    const lclRate = await lclRateUpdate(req, oldQuote);
 
-                    if(!rateData) throw createHttpError(404, 'Rate not found');
-                    
-                    let volume, finalUnitType = unitType || oldQuote.unitType;
-
-                    if(pallets) {
-                        volume = calculatePallet(pallets, finalUnitType, rateData.rateType);
-                    }
-                    else {
-                        volume = calculatePallet(oldQuote.pallets, finalUnitType, rateData.rateType);
-                    }
-                    updateData.qubic = volume;
-        
-                    if(idChanged) {
-                        if(rateData.rateType === 'global') {
-                            updateData.exportAndFreight = {
-                                id: rateData.id,
-                                rateType: rateData.rateType,
-                                freightRate: rateData.freightRate,
-                                portFee: rateData.portFee,
-                                documentFee: rateData.documentFee,
-                                billofLadingFee: rateData.billofLadingFee,
-                                destinationBillofLadingFee: rateData.destinationBillofLadingFee,
-                                chargeFee: rateData.chargeFee,
-                                unit: rate.unit,
-                                amount: (volume * rateData.freightRate +  volume * rateData.portFee + rateData.documentFee + rateData.billofLadingFee + rateData.destinationBillofLadingFee) * (1+ rateData.chargeFee / 100) * rate.unit
-                            }
-                        }
-                        else if(rateData.rateType === 'china') {
-                            updateData.exportAndFreight = {
-                                id: rateData.id,
-                                rateType: rateData.rateType,
-                                documentFeeChina: rateData.documentFeeChina,
-                                clearanceFeeChina: rateData.clearanceFeeChina,
-                                vgmFeeChina: rateData.vgmFeeChina,
-                                mainfestFeeChina: rateData.mainfestFeeChina,
-                                cfsFeeChina: rateData.cfsFeeChina,
-                                ocFeeChina: rateData.ocFeeChina,
-                                oceanFreightFeeChina: rateData.oceanFreightFeeChina,
-                                destinationBillOfLadingFeeChina: rateData.destinationBillOfLadingFeeChina,
-                                collectFeeChina: rateData.collectFeeChina,
-                                unit: rate.unit,
-                                amount: (
-                                    rateData.documentFeeChina +
-                                    rateData.clearanceFeeChina +
-                                    rateData.vgmFeeChina +
-                                    rateData.mainfestFeeChina +
-                                    volume * rateData.cfsFeeChina +
-                                    volume * rateData.ocFeeChina +
-                                    (volume * rateData.oceanFreightFeeChina +
-                                    rateData.destinationBillOfLadingFeeChina ) * (1 + rateData.collectFeeChina / 100)
-                                  ) * rate.unit
-                            }
-                        }
-                        
-                    }
-                    else {
-                        if(rateData.rateType === 'global') {
-                            updateData.exportAndFreight = {
-                                id: rate.id,
-                                rateType: rateData.rateType,
-                                freightRate: rate.freightRate,
-                                portFee: rate.portFee,
-                                documentFee: rate.documentFee,
-                                billofLadingFee: rate.billofLadingFee,
-                                destinationBillofLadingFee: rate.destinationBillofLadingFee,
-                                chargeFee: rate.chargeFee,
-                                unit: rate.unit,
-                                amount: (volume * rate.freightRate +  volume * rate.portFee + rate.documentFee + rate.billofLadingFee + rate.destinationBillofLadingFee) * (1+ rate.chargeFee / 100) * rate.unit
-                            }
-                        } 
-                        else if(rateData.rateType === 'china') {
-                            updateData.exportAndFreight = {
-                                id: rate.id,
-                                rateType: rateData.rateType,
-                                documentFeeChina: rate.documentFeeChina,
-                                clearanceFeeChina: rate.clearanceFeeChina,
-                                vgmFeeChina: rate.vgmFeeChina,
-                                mainfestFeeChina: rate.mainfestFeeChina,
-                                cfsFeeChina: rate.cfsFeeChina,
-                                ocFeeChina: rate.ocFeeChina,
-                                oceanFreightFeeChina: rate.oceanFreightFeeChina,
-                                destinationBillOfLadingFeeChina: rate.destinationBillOfLadingFeeChina,
-                                collectFeeChina: rate.collectFeeChina,
-                                unit: rate.unit,
-                                amount: (
-                                    rate.documentFeeChina +
-                                    rate.clearanceFeeChina +
-                                    rate.vgmFeeChina +
-                                    rate.mainfestFeeChina +
-                                    volume * rate.cfsFeeChina +
-                                    volume * rate.ocFeeChina +
-                                    (volume * rate.oceanFreightFeeChina +
-                                    rate.destinationBillOfLadingFeeChina) * (1 + rate.collectFeeChina / 100)
-                                  ) * rate.unit
-                            }
-                        }
-                        
-                    }
-                    updateData.warehouse = rateData.warehouse;
-                    updateData.countryOfImport = rateData.countryOfImport;
-                    updateData.consolidationAddress = rateData.consolidationAddress;
-                    updateData.heatTreatPalletRequire = rateData.heatTreatPalletRequire;
-                    break;
+                    updateData = {...updateData, ...lclRate};
             }
-
-            
         }
 
 
         if(agent) {
-            const {idChanged} = agent;
+            const agentUpdates = await agentUpdate(req, type);
 
-            const agentData = await Agent.findOne({_id: agent.id});
-
-            if(idChanged && agentData) {
-                updateData.customAduanaServices = {
-                    id: agentData._id,
-                    vehicleRate: agentData.vehicleRate,
-                    classifyProduct: agentData.classifyProduct,
-                    rojoSelective: agentData.rojoSelective,
-                    review: agentData.review,
-                    permitsCost: agentData.permitsCost,
-                    unit: agent.unit,
-                    amount: (type == 'Vehicle') ? agentData.vehicleRate * agent.unit : agentData.classifyProduct * agent.unit,
-                }
-            }
-            else if(agentData) {
-                updateData.customAduanaServices = {
-                    id: agent._id,
-                    vehicleRate: agent.vehicleRate,
-                    classifyProduct: agent.classifyProduct,
-                    rojoSelective: agent.rojoSelective,
-                    review: agent.review,
-                    permitsCost: agent.permitsCost,
-                    id: agentData._id,
-                    unit: agent.unit,
-                    amount: (type == 'Vehicle')? agent.vehicleRate * agent.unit : agent.classifyProduct * agent.unit
-                }
-            }
+            updateData = {...updateData, ...agentUpdates};
         }
 
         const quote = await Quote.findOneAndUpdate({_id: quoteId}, {$set: updateData, $push: {otherCosts}}, {new: true});
