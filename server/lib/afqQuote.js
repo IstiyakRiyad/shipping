@@ -10,13 +10,13 @@ const calculateAmount = (rate, volume, unit, minRate) => {
         rate.airPortTransferFee + 
         rate.documentFee + 
         rate.billofLadingFee +
-        Math.max(minRate, rate.sed) +
+        rate.sed +
         Math.max(minRate, volume * rate.scr) +
         Math.max(minRate, volume * rate.peakSeasonSurcharges) +
         Math.max(minRate, volume * rate.hdlg) +
-        Math.max(minRate, rate.hawbFee) +
+        rate.hawbFee +
         Math.max(minRate, volume * rate.fuel) +
-        Math.max(minRate, rate.cg) +
+        rate.cg +
         Math.max(minRate, volume * rate.airtrans) 
     ) * (1 + rate.chargeFee / 100) * unit
 }
