@@ -20,7 +20,17 @@ router.patch('/:afqRateId',  checkAuth(), async (req, res, next) => {
             consolidationAddress,
             heatTreatPalletRequire,
             status,
-            note
+            note,
+            // New Field
+            sed,
+            scr,
+            peakSeasonSurcharges,
+            hdlg,
+            hawbFee,
+            fuel,
+            cg,
+            airtrans,
+            minRate
         } = req.body;
 
         const updateData = {};
@@ -37,8 +47,17 @@ router.patch('/:afqRateId',  checkAuth(), async (req, res, next) => {
         if(heatTreatPalletRequire)updateData.heatTreatPalletRequire = heatTreatPalletRequire;
         if(status)updateData.status = status;     
         if(note)updateData.note = note;
-
-
+            // New Field
+        if(sed) updateData.sed = sed;
+        if(scr) updateData.scr = scr;
+        if(peakSeasonSurcharges) updateData.peakSeasonSurcharges = peakSeasonSurcharges;
+        if(hdlg) updateData.hdlg = hdlg;
+        if(hawbFee) updateData.hawbFee = hawbFee;
+        if(fuel) updateData.fuel = fuel;
+        if(cg) updateData.cg = cg;
+        if(airtrans) updateData.airtrans = airtrans;
+        if(minRate) updateData.minRate = minRate;
+        
         const afqrate = await AfqRate.findOneAndUpdate({_id: afqRateId}, {$set: updateData}, {new: true});
 
 

@@ -4,13 +4,43 @@ const createHttpError = require("http-errors");
 const calculatePallet = require("../utils/calculatePallet");
 
 
-const calculateAmount = (rate, volume, unit) => {
+const calculateAmount = (rate, volume, unit, minRate) => {
     return (
         volume * rate.airFreightRate + 
         rate.airPortTransferFee + 
         rate.documentFee + 
-        rate.billofLadingFee 
+        rate.billofLadingFee +
+        Math.max(minRate, rate.sed) +
+        volume * Math.max(minRate, rate.scr) +
+        volume * Math.max(minRate, rate.peakSeasonSurcharges) +
+        volume * Math.max(minRate, rate.hdlg) +
+        Math.max(minRate, rate.hawbFee) +
+        volume * Math.max(minRate, rate.fuel) +
+        Math.max(minRate, rate.cg) +
+        volume * Math.max(minRate, rate.airtrans) 
     ) * (1 + rate.chargeFee / 100) * unit
+}
+
+const exportAndFreightObj = (rate, volume, unit) => {
+    return {
+        id: rate._id,
+        airFreightRate: rate.airFreightRate,
+        airPortTransferFee: rate.airPortTransferFee,
+        documentFee: rate.documentFee,
+        billofLadingFee: rate.billofLadingFee,
+        chargeFee: rate.chargeFee,
+        sed: rate.sed,
+        scr: rate.scr,
+        peakSeasonSurcharges: rate.peakSeasonSurcharges,
+        hdlg: rate.hdlg,
+        hawbFee: rate.hawbFee,
+        fuel: rate.fuel,
+        cg: rate.cg,
+        airtrans: rate.airtrans,
+        minRate: rate.minRate,
+        unit,
+        amount: calculateAmount(rate, volume, unit, rate.minRate)
+    }
 }
 
 const afqRateUpdate = async (req, oldQuote) => {
@@ -34,29 +64,12 @@ const afqRateUpdate = async (req, oldQuote) => {
     }
     updateData.qubic = volume;
 
+    // exportAndFreight rate
     if (idChanged) {
-        updateData.exportAndFreight = {
-            id: afqRateData.id,
-            airFreightRate: afqRateData.airFreightRate,
-            airPortTransferFee: afqRateData.airPortTransferFee,
-            documentFee: afqRateData.documentFee,
-            billofLadingFee: afqRateData.billofLadingFee,
-            chargeFee: afqRateData.chargeFee,
-            unit: rate.unit,
-            amount: calculateAmount(afqRateData, volume, rate.unit) 
-        }
+        updateData.exportAndFreight = exportAndFreightObj(afqRateData, volume, rate.unit);
     }
     else {
-        updateData.exportAndFreight = {
-            id: rate.id,
-            airFreightRate: rate.airFreightRate,
-            airPortTransferFee: rate.airPortTransferFee,
-            documentFee: rate.documentFee,
-            billofLadingFee: rate.billofLadingFee,
-            chargeFee: rate.chargeFee,
-            unit: rate.unit,
-            amount: calculateAmount(rate, volume, rate.unit) 
-        }
+        updateData.exportAndFreight = exportAndFreightObj(rate, volume, rate.unit);
     }
 
     return updateData;
@@ -69,27 +82,18 @@ const afqQuote = async (req) => {
         pallets,
         unitType
     } = req.body;
-    
-    let exportAndFreight, customAduanaServices;
+
     const rate = await AFQRate.findOne({ _id: rateId });
 
     if (!rate) throw createHttpError(404, "Rate not found");
 
     const volume = calculatePallet(pallets, unitType, 'afq');
 
-    exportAndFreight = {
-        id: rate._id,
-        airFreightRate: rate.airFreightRate,
-        airPortTransferFee: rate.airPortTransferFee,
-        documentFee: rate.documentFee,
-        billofLadingFee: rate.billofLadingFee,
-        chargeFee: rate.chargeFee,
-        unit: 1,
-        amount: calculateAmount(rate, volume, 1)
-    };
+    const exportAndFreight = exportAndFreightObj(rate, volume, 1);
 
     const agent = await Agent.findOne({ status: "Default" });
-
+    
+    let customAduanaServices;
     if (agent) {
         customAduanaServices = {
             id: agent._id,

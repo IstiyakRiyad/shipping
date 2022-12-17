@@ -20,7 +20,17 @@ router.post('/:partnerId', checkAuth(), async (req, res, next) => {
             consolidationAddress,
             heatTreatPalletRequire,
             status,
-            note
+            note,
+            // New Field
+            sed,
+            scr,
+            peakSeasonSurcharges,
+            hdlg,
+            hawbFee,
+            fuel,
+            cg,
+            airtrans,
+            minRate
         } = req.body;
         
         const afqRate = await new AfqRate({
@@ -36,7 +46,17 @@ router.post('/:partnerId', checkAuth(), async (req, res, next) => {
             consolidationAddress,
             heatTreatPalletRequire,
             status,
-            note
+            note,
+            // New Field
+            sed,
+            scr,
+            peakSeasonSurcharges,
+            hdlg,
+            hawbFee,
+            fuel,
+            cg,
+            airtrans,
+            minRate
         }).save();
 
 

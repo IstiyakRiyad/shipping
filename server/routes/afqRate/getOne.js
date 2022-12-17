@@ -15,7 +15,7 @@ router.get('/:afqRateId',  checkAuth(), async (req, res, next) => {
             },
             {
                 $lookup: {
-                    from: 'lcls',
+                    from: 'afqs',
                     localField: 'partnerId',
                     foreignField: '_id',
                     as: 'partner',

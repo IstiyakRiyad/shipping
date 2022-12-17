@@ -18,11 +18,40 @@ const AFQRateSchema = Schema({
     },
     airPortTransferFee: {
         type: Number
-    },
+    },  
     documentFee: {
         type: Number
     },
     billofLadingFee: {
+        type: Number
+    },
+
+    // New Fields
+    sed: {
+        type: Number
+    },
+    scr: {
+        type: Number
+    },
+    peakSeasonSurcharges: {
+        type: Number
+    },
+    hdlg: {
+        type: Number
+    },
+    hawbFee: {
+        type: Number
+    },
+    fuel: {
+        type: Number
+    },
+    cg: {
+        type: Number
+    },
+    airtrans: {
+        type: Number
+    },
+    minRate: {
         type: Number
     },
     // destinationBillofLadingFee: {
@@ -46,6 +75,7 @@ const AFQRateSchema = Schema({
         default: 'Active Rate'
     }
 }, {timestamps: true});
+
 
 
 const AFQRate = model('afqrate', AFQRateSchema);
