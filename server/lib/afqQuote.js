@@ -11,19 +11,21 @@ const calculateAmount = (rate, volume, unit, minRate) => {
         rate.documentFee + 
         rate.billofLadingFee +
         Math.max(minRate, rate.sed) +
-        volume * Math.max(minRate, rate.scr) +
-        volume * Math.max(minRate, rate.peakSeasonSurcharges) +
-        volume * Math.max(minRate, rate.hdlg) +
+        Math.max(minRate, volume * rate.scr) +
+        Math.max(minRate, volume * rate.peakSeasonSurcharges) +
+        Math.max(minRate, volume * rate.hdlg) +
         Math.max(minRate, rate.hawbFee) +
-        volume * Math.max(minRate, rate.fuel) +
+        Math.max(minRate, volume * rate.fuel) +
         Math.max(minRate, rate.cg) +
-        volume * Math.max(minRate, rate.airtrans) 
+        Math.max(minRate, volume * rate.airtrans) 
     ) * (1 + rate.chargeFee / 100) * unit
 }
 
+
+
 const exportAndFreightObj = (rate, volume, unit) => {
     return {
-        id: rate._id,
+        id: rate._id ? rate._id : rate.id,
         airFreightRate: rate.airFreightRate,
         airPortTransferFee: rate.airPortTransferFee,
         documentFee: rate.documentFee,
@@ -42,6 +44,7 @@ const exportAndFreightObj = (rate, volume, unit) => {
         amount: calculateAmount(rate, volume, unit, rate.minRate)
     }
 }
+
 
 const afqRateUpdate = async (req, oldQuote) => {
     const {rate, unitType, pallets} = req.body;
