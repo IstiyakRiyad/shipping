@@ -31,8 +31,9 @@ const calculatePallet = (pallets, unitType = 'in', rateType) => {
     }
     
     if(volume < 1) volume = 1;
+    if (rateType === "afq") return Math.round(volume);
 
-    return Math.round(volume);
+    return volume;
 }
 
 module.exports = calculatePallet;
