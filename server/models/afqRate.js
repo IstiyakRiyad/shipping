@@ -51,7 +51,29 @@ const AFQRateSchema = Schema({
     airtrans: {
         type: Number
     },
-    minRate: {
+    // MinRates
+    sedMinRate: {
+        type: Number
+    },
+    scrMinRate: {
+        type: Number
+    },
+    peakSeasonSurchargesMinRate: {
+        type: Number
+    },
+    hdlgMinRate: {
+        type: Number
+    },
+    hawbFeeMinRate: {
+        type: Number
+    },
+    fuelMinRate: {
+        type: Number
+    },
+    cgMinRate: {
+        type: Number
+    },
+    airtransMinRate: {
         type: Number
     },
     // destinationBillofLadingFee: {

@@ -30,7 +30,15 @@ router.post('/:partnerId', checkAuth(), async (req, res, next) => {
             fuel,
             cg,
             airtrans,
-            minRate
+            // MinRates
+            sedMinRate,
+            scrMinRate,
+            peakSeasonSurchargesMinRate,
+            hdlgMinRate,
+            hawbFeeMinRate,
+            fuelMinRate,
+            cgMinRate,
+            airtransMinRate
         } = req.body;
         
         const afqRate = await new AfqRate({
@@ -56,7 +64,16 @@ router.post('/:partnerId', checkAuth(), async (req, res, next) => {
             fuel,
             cg,
             airtrans,
-            minRate
+            
+            // Min Rates
+            sedMinRate,
+            scrMinRate,
+            peakSeasonSurchargesMinRate,
+            hdlgMinRate,
+            hawbFeeMinRate,
+            fuelMinRate,
+            cgMinRate,
+            airtransMinRate
         }).save();
 
 

@@ -30,7 +30,14 @@ router.patch('/:afqRateId',  checkAuth(), async (req, res, next) => {
             fuel,
             cg,
             airtrans,
-            minRate
+            sedMinRate,
+            scrMinRate,
+            peakSeasonSurchargesMinRate,
+            hdlgMinRate,
+            hawbFeeMinRate,
+            fuelMinRate,
+            cgMinRate,
+            airtransMinRate
         } = req.body;
 
         const updateData = {};
@@ -56,7 +63,15 @@ router.patch('/:afqRateId',  checkAuth(), async (req, res, next) => {
         if(fuel) updateData.fuel = fuel;
         if(cg) updateData.cg = cg;
         if(airtrans) updateData.airtrans = airtrans;
-        if(minRate) updateData.minRate = minRate;
+        // MinRate
+        if(sedMinRate) updateData.sedMinRate = sedMinRate;
+        if(scrMinRate) updateData.scrMinRate = scrMinRate;
+        if(peakSeasonSurchargesMinRate) updateData.peakSeasonSurchargesMinRate = peakSeasonSurchargesMinRate;
+        if(hdlgMinRate) updateData.hdlgMinRate = hdlgMinRate;
+        if(hawbFeeMinRate) updateData.hawbFeeMinRate = hawbFeeMinRate;
+        if(fuelMinRate) updateData.fuelMinRate = fuelMinRate;
+        if(cgMinRate) updateData.cgMinRate = cgMinRate;
+        if(airtransMinRate) updateData.airtransMinRate = airtransMinRate;
         
         const afqrate = await AfqRate.findOneAndUpdate({_id: afqRateId}, {$set: updateData}, {new: true});
 

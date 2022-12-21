@@ -4,20 +4,20 @@ const createHttpError = require("http-errors");
 const calculatePallet = require("../utils/calculatePallet");
 
 
-const calculateAmount = (rate, volume, unit, minRate) => {
+const calculateAmount = (rate, volume, unit) => {
     return (
         volume * rate.airFreightRate + 
         rate.airPortTransferFee + 
         rate.documentFee + 
         rate.billofLadingFee +
-        rate.sed +
-        Math.max(minRate, volume * rate.scr) +
-        Math.max(minRate, volume * rate.peakSeasonSurcharges) +
-        Math.max(minRate, volume * rate.hdlg) +
-        rate.hawbFee +
-        Math.max(minRate, volume * rate.fuel) +
-        rate.cg +
-        Math.max(minRate, volume * rate.airtrans) 
+        Math.max(rate.sedMinRate, rate.sed) +
+        Math.max(rate.scrMinRate, volume * rate.scr) +
+        Math.max(rate.peakSeasonSurchargesMinRate, volume * rate.peakSeasonSurcharges) +
+        Math.max(rate.hdlgMinRate, volume * rate.hdlg) +
+        Math.max(rate.hawbFeeMinRate,rate.hawbFee) +
+        Math.max(rate.fuelMinRate, volume * rate.fuel) +
+        Math.max(rate.cgMinRate, rate.cg) +
+        Math.max(rate.airtransMinRate, volume * rate.airtrans) 
     ) * (1 + rate.chargeFee / 100) * unit
 }
 
@@ -39,9 +39,16 @@ const exportAndFreightObj = (rate, volume, unit) => {
         fuel: rate.fuel,
         cg: rate.cg,
         airtrans: rate.airtrans,
-        minRate: rate.minRate,
+        sedMinRate: rate.sedMinRate,
+        scrMinRate: rate.scrMinRate,
+        peakSeasonSurchargesMinRate: rate.peakSeasonSurchargesMinRate,
+        hdlgMinRate: rate.hdlgMinRate,
+        hawbFeeMinRate: rate.hawbFeeMinRate,
+        fuelMinRate: rate.fuelMinRate,
+        cgMinRate: rate.cgMinRate,
+        airtransMinRate: rate.airtransMinRate,
         unit,
-        amount: calculateAmount(rate, volume, unit, rate.minRate)
+        amount: calculateAmount(rate, volume, unit)
     }
 }
 
