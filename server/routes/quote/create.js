@@ -54,7 +54,7 @@ router.post("/", upload.single('image'), async (req, res, next) => {
             phone,
         } = req.body;
 
-        let quoteData;
+        let quoteData = {};
         if (type === 'Vehicle') {
             quoteData = await vehicleQuote(req);
         }
